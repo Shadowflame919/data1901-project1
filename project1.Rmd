@@ -11,7 +11,7 @@ output:
       fig_caption: yes
       number_sections: yes
       self_contained: yes
-      theme: flatly
+      theme: yeti
       toc: yes
       toc_float: yes
 ---
