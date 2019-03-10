@@ -37,25 +37,42 @@ gradData = read.csv("data/recent-grads.csv")
 
 
 ### Source
-<!--Hmmmm--> 
-```{r, include=FALSE}
-library(plotly)
-```
 
-```{r}
-p2 = plot_ly(mtcars, x = ~mpg, y = ~wt, z = ~qsec, color = ~factor(cyl), type="scatter3d", mode="markers", text = ~paste("Cylinder: ", cyl)) %>%
-  layout(
-    title = "3D Chart for mtcars",
-    scene = list(
-      xaxis = list(title = "Miles per gallon"),
-      yaxis = list(title = "Weight"),
-      zaxis = list(title = "Qsec")
-    ))
-p2
-```
+Data collected from the American Community Survey 2010 - 2012 Public Use Microdata Series (PUMS Data) at the [USA Census Website](https://www.census.gov/programs-surveys/acs/data/pums.html). It was initially wrangled by American media company [FiveThirtyEight](https://www.census.gov/programs-surveys/acs/data/pums.html). 
 
+Major categories were sourced from ["What's It Worth?: The Economic Value of College Majors." Georgetown University Center on Education and the Workforce, 2011](http://cew.georgetown.edu/whatsitworth). 
+
+Note that:
+
+- Data was not adjusted for inflation 
+- "Recent-grads" data was filtered to only include subjects below the age of *28*
 
 ### Data Dictionary
+
+<!--TODO: Make this table wider--> 
+Header | Description
+---|-------
+`Rank` | Rank by median earnings
+`Major_code` | Major code, FO1DP in ACS PUMS
+`Major` | Major description
+`Major_category` | Category of major from Carnevale et al
+`Total` | Total number of people with major
+`Sample_size` | Sample size (unweighted) of full-time, year-round ONLY (used for earnings)
+`Men` | Male graduates
+`Women` | Female graduates
+`ShareWomen` | Women as share of total
+`Employed` | Number employed (ESR == 1 or 2)
+`Full_time` | Employed 35 hours or more
+`Part_time` | Employed less than 35 hours
+`Full_time_year_round` | Employed at least 50 weeks (WKW == 1) and at least 35 hours (WKHP >= 35)
+`Unemployed` | Number unemployed (ESR == 3)
+`Unemployment_rate` | Unemployed / (Unemployed + Employed)
+`Median` | Median earnings of full-time, year-round workers
+`P25th` | 25th percentile of earnigns
+`P75th` | 75th percentile of earnings
+`College_jobs` | Number with job requiring a college degree
+`Non_college_jobs` | Number with job not requiring a college degree
+`Low_wage_jobs` | Number in low-wage service jobs
 
 ### Data Assessment
 
