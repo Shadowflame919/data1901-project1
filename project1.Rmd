@@ -11,7 +11,7 @@ output:
       fig_caption: yes
       number_sections: yes
       self_contained: yes
-      theme: yeti #https://bootswatch.com
+      theme: journal #https://bootswatch.com
       toc: yes
       toc_float: yes
 ---
