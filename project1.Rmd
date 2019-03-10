@@ -1,0 +1,106 @@
+---
+title: "DATA1901 Project 1"
+author: "Aitchison 490378115, Braham XXXXXXXXX, Hempstead XXXXXXXXX"
+subtitle: "On the Influence of US College Majors"
+date: "University of Sydney | Semester 1 | March 2019"
+output: 
+  html_document:
+      code_folding: show
+      css: #https://use.fontawesome.com/releases/v5.0.6/css/all.css
+      df_print: paged
+      fig_caption: yes
+      number_sections: yes
+      self_contained: yes
+      theme: flatly
+      toc: yes
+      toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<!--We suggest 400 words (max) for the Executive Summary, 200 words (max) for the IDA, and 250 words (max) for each of the Research Questions.-->
+
+# Executive Summary
+
+<br>
+<br>
+
+# Full Report
+
+## Initial Data Analysis (IDA)
+
+```{r}
+gradData = read.csv("data/recent-grads.csv")
+```
+
+
+### Source
+<!--Hmmmm--> 
+```{r, include=FALSE}
+library(plotly)
+```
+
+```{r}
+p2 = plot_ly(mtcars, x = ~mpg, y = ~wt, z = ~qsec, color = ~factor(cyl), type="scatter3d", mode="markers", text = ~paste("Cylinder: ", cyl)) %>%
+  layout(
+    title = "3D Chart for mtcars",
+    scene = list(
+      xaxis = list(title = "Miles per gallon"),
+      yaxis = list(title = "Weight"),
+      zaxis = list(title = "Qsec")
+    ))
+p2
+```
+
+
+### Data Dictionary
+
+### Data Assessment
+
+- The data is valid because ...
+- Possible issues include ...
+- We will solve this by ...
+
+<br>
+
+## Research Question 1
+
+Insert text and analysis. 
+
+Summary: 
+
+## Research Question 2
+
+Insert text and analysis. 
+
+Summary: 
+
+## Research Question 3
+
+Insert text and analysis. 
+
+Summary: 
+
+<br>
+
+# Conclusions
+
+Insert text.
+
+<br>
+
+# References
+
+Style: APA 
+
+<br>
+
+# Personal reflection on group work
+
+- The way I contributed was ...
+- What I learnt about group work was ... 
+
+<br>
+
