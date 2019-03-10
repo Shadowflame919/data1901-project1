@@ -1,6 +1,6 @@
 ---
 title: "DATA1901 Project 1"
-author: "Aitchison 490378115, Braham XXXXXXXXX, Hempstead XXXXXXXXX"
+author: "Aitchison 490378115, Braham 490422474, Hempstead XXXXXXXXX"
 subtitle: "On the Influence of US College Majors"
 date: "University of Sydney | Semester 1 | March 2019"
 output: 
