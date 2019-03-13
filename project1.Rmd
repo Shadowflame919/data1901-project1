@@ -38,7 +38,7 @@ gradData = read.csv("data/recent-grads.csv")
 
 ### Source
 
-Data collected from the American Community Survey 2010 - 2012 Public Use Microdata Series (PUMS Data) at the [USA Census Website](https://www.census.gov/programs-surveys/acs/data/pums.html). It was initially wrangled by American media company [FiveThirtyEight](https://www.census.gov/programs-surveys/acs/data/pums.html). 
+Data collected from the American Community Survey 2010 - 2012 Public Use Microdata Series (PUMS Data) at the [USA Census Website](https://www.census.gov/programs-surveys/acs/data/pums.html). It was initially wrangled by American media company [FiveThirtyEight](https://github.com/fivethirtyeight/data/blob/master/college-majors/college-majors-rscript.R). 
 
 Major categories were sourced from ["What's It Worth?: The Economic Value of College Majors." Georgetown University Center on Education and the Workforce, 2011](http://cew.georgetown.edu/whatsitworth). 
 
