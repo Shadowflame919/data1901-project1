@@ -18,6 +18,10 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+if (!require(ggplot2)) {
+  install.packages(ggplot2)
+  library(ggplot2)
+}
 ```
 
 <!--We suggest 400 words (max) for the Executive Summary, 200 words (max) for the IDA, and 250 words (max) for each of the Research Questions.-->
@@ -31,7 +35,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Initial Data Analysis (IDA)
 
-```{r}
+```{r loadData}
 gradData = read.csv("data/recent-grads.csv")
 ```
 
@@ -106,11 +110,28 @@ Insert text and analysis.
 
 Summary: 
 
+```{r}
+# Removed outlier value <$1e5
+ggplot(gradData[gradData$Median<100000,], aes(x=ShareWomen*100, y=Median/1000)) + 
+  geom_point(aes(color = factor(Major_category))) + xlab("% Women") + ylab("Median Income ($1000)") + 
+  labs(color = "Major Category", title="Median Income vs Percentage of Women in Major") + 
+  stat_smooth(method = "lm", col = "black")
+```
+
 ## Research Question 2
 
 Insert text and analysis. 
 
 Summary: 
+
+```{r}
+percentCollege = gradData$College_jobs/(gradData$College_jobs+gradData$Non_college_jobs+gradData$Low_wage_jobs)
+ggplot(gradData, aes(x=factor(Major_category), y=percentCollege)) + 
+  geom_boxplot(aes(fill = factor(Major_category))) +
+  theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.ticks.x = element_blank()) +
+  labs(fill = "Major Category", title="Percent College Jobs per Major Category") + 
+  ylab("Percentage of Jobs as College Jobs")
+```
 
 ## Research Question 3
 
