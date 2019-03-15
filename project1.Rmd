@@ -53,7 +53,7 @@ Note that:
 
 ### Data Dictionary
 
-<!--TODO: Make this table wider--> 
+<!--TODO: Make this table wider, retype in own words, add classifications of the data--> 
 Header | Description
 ---|-------
 `Rank` | Rank by median earnings
@@ -86,7 +86,7 @@ Header | Description
 
 <br>
 
-## Research Question Drafts
+## Research Question Drafts Old
 
 Q1
 "Is there a correlation between majors that promote higher paying jobs and the associated unemployment rates?" 
@@ -104,6 +104,17 @@ Q3 *Based on previous results
 Unemployment rate between major categories (Simpson's Paradox) potential
 Get top 10 from each Humanities and Liberal Arts + Engineering 
 
+# #New questions:
+Q1: Which college majors give the highest incomes?
+Sub-question: How does this take into account spread (i.e. compare 75th vs median vs 25th)
+
+Q2: Which college majors give the highest employability (based on unemployment)?
+Sub-question: How much of this employment is actually in their field / based on the degree (looking at college jobs vs non-college jobs)?
+
+Q3: Which college majors pay the most per time worked (looking at % full time)? 
+
+Q3 (alternative): Looking at the results from Q1 and Q2, how do these "rankings" align with the popularity of these courses (based on total people = employed + unemployed)
+
 ## Research Question 1
 
 Insert text and analysis. 
@@ -111,11 +122,7 @@ Insert text and analysis.
 Summary: 
 
 ```{r}
-# Removed outlier value <$1e5
-ggplot(gradData[gradData$Median<100000,], aes(x=ShareWomen*100, y=Median/1000)) + 
-  geom_point(aes(color = factor(Major_category))) + xlab("% Women") + ylab("Median Income ($1000)") + 
-  labs(color = "Major Category", title="Median Income vs Percentage of Women in Major") + 
-  stat_smooth(method = "lm", col = "black")
+
 ```
 
 ## Research Question 2
@@ -146,6 +153,11 @@ Summary:
 Insert text.
 
 <br>
+
+```{r}
+sessionInfo()
+```
+
 
 # References
 
