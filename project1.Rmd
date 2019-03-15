@@ -5,7 +5,7 @@ subtitle: "On the Influence of US College Majors"
 date: "University of Sydney | Semester 1 | March 2019"
 output: 
   html_document:
-      code_folding: show
+      code_folding: hide
       css: #https://use.fontawesome.com/releases/v5.0.6/css/all.css
       df_print: paged
       fig_caption: yes
@@ -19,7 +19,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 if (!require(ggplot2)) {
-  install.packages(ggplot2)
+  install.packages("ggplot2")
   library(ggplot2)
 }
 ```
@@ -39,12 +39,9 @@ if (!require(ggplot2)) {
 gradData = read.csv("data/recent-grads.csv")
 ```
 
-
 ### Source
 
-Data collected from the American Community Survey 2010 - 2012 Public Use Microdata Series (PUMS Data) at the [USA Census Website](https://www.census.gov/programs-surveys/acs/data/pums.html). It was initially wrangled by American media company [FiveThirtyEight](https://github.com/fivethirtyeight/data/blob/master/college-majors/college-majors-rscript.R). 
-
-Major categories were sourced from ["What's It Worth?: The Economic Value of College Majors." Georgetown University Center on Education and the Workforce, 2011](http://cew.georgetown.edu/whatsitworth). 
+Data collected from the American Community Survey 2010 - 2012 Public Use Microdata Series (PUMS Data) at the [USA Census Website](https://www.census.gov/programs-surveys/acs/data/pums.html). It was initially wrangled by American media company [FiveThirtyEight](https://github.com/fivethirtyeight/data/tree/master/college-majors). The code used to wrangle the data can be viewed [here](https://github.com/fivethirtyeight/data/blob/master/college-majors/college-majors-rscript.R). 
 
 Note that:
 
@@ -53,40 +50,115 @@ Note that:
 
 ### Data Dictionary
 
-<!--TODO: Make this table wider, retype in own words, add classifications of the data--> 
-Header | Description
----|-------
-`Rank` | Rank by median earnings
-`Major_code` | Major code, FO1DP in ACS PUMS
-`Major` | Major description
-`Major_category` | Category of major from Carnevale et al
-`Total` | Total number of people with major
-`Sample_size` | Sample size (unweighted) of full-time, year-round ONLY (used for earnings)
-`Men` | Male graduates
-`Women` | Female graduates
-`ShareWomen` | Women as share of total
-`Employed` | Number employed (ESR == 1 or 2)
-`Full_time` | Employed 35 hours or more
-`Part_time` | Employed less than 35 hours
-`Full_time_year_round` | Employed at least 50 weeks (WKW == 1) and at least 35 hours (WKHP >= 35)
-`Unemployed` | Number unemployed (ESR == 3)
-`Unemployment_rate` | Unemployed / (Unemployed + Employed)
-`Median` | Median earnings of full-time, year-round workers
-`P25th` | 25th percentile of earnigns
-`P75th` | 75th percentile of earnings
-`College_jobs` | Number with job requiring a college degree
-`Non_college_jobs` | Number with job not requiring a college degree
-`Low_wage_jobs` | Number in low-wage service jobs
+```{r}
+# View the structure of the data:
+str(gradData)
+```
+
+This data consists of 20 variables (excluding "Rank" which orders the subjects by Median income). 
+
+#### Major_code {-}
+A unique code for each major, given by the [source](https://www.census.gov/programs-surveys/acs/data/pums.html). <br>
+*Type*: Integer 
+<br>
+*Assessment*: Although it is a number, a factor classification would be more suitable as the codes are considered nominal (no order). 
+
+
+#### Major {-}
+The major's name.
+<br>
+*Type*: Factor 
+<br>
+*Assessment*: Either a character or factor classification would be suitable. 
+
+#### Total, Men, Women {-}
+Amount of total people, men, and women respectively with that major in the sample for 2010-2012.
+<br>
+*Type*: Integer 
+<br>
+*Assessment*: Suitable. 
+
+#### Major_category {-}
+General category for that major (e.g. "Engineering").
+<br>
+*Type*: Factir 
+<br>
+*Assessment*: Suitable - allows for easy classification and plotting.
+
+#### ShareWomen {-}
+Women as a percentage of Total.
+<br>
+*Type*: Number 
+<br>
+*Assessment*: Suitable, since it is provided as a decimal (multiply by 100 if plotting percentages). 
+
+
+#### Sample_size {-}
+Sample size for calculating income quartiles.
+<br>
+*Type*: Integer 
+<br>
+*Assessment*: Suitable. 
+
+#### Employed, Full_time, Part_time {-}
+Number of people employed, employed 35 hours or more per week, and employed 35 hours or less respectively.
+<br>
+*Type*: Integer 
+<br>
+*Assessment*: Suitable. 
+
+#### Full_time_year_round {-}
+Number of people employed for at least 50 weeks per year and over 35 hours hours per week.
+<br>
+*Type*: Integer 
+<br>
+*Assessment*: Suitable. 
+
+#### Unemployed {-}
+Number of people considered unemployed by census data.
+<br>
+*Type*: Integer 
+<br>
+*Assessment*: Suitable. 
+
+#### Unemployment_rate {-}
+The percentage of people unemployed over (unemployed + employed).
+<br>
+*Type*: Number 
+<br>
+*Assessment*: Suitable. 
+
+#### Median, P25th, P75th {-}
+Meadian, 25th percentile, and 75th percentile earnings respectively for full-time, year-round workers.
+<br>
+*Type*: Integer 
+<br>
+*Assessment*: Suitable - although income is continuous, it can be considered discrete without significantly impacting the data. 
+
+#### College_jobs, Non_college_jobs, Low_wage_jobs {-}
+Number of people with a job requiring a college degree, not requiring a college degree, and in a low-wage service job respectively.
+<br>
+*Type*: Integer 
+<br>
+*Assessment*: Suitable. 
+
 
 ### Data Assessment
 
 - The data is valid because ...
 - Possible issues include ...
+  - Missing values in some rows
 - We will solve this by ...
+
+### Data Wrangling
+
+```{r}
+# Remove rows with blank values
+```
 
 <br>
 
-## Research Question Drafts Old
+<!--## Research Question Drafts Old
 
 Q1
 "Is there a correlation between majors that promote higher paying jobs and the associated unemployment rates?" 
@@ -102,9 +174,9 @@ Q2
 Q3 *Based on previous results
 "What are the comparative unemployment rates between Engineering and Liberal Arts graduates?" 
 Unemployment rate between major categories (Simpson's Paradox) potential
-Get top 10 from each Humanities and Liberal Arts + Engineering 
+Get top 10 from each Humanities and Liberal Arts + Engineering -->
 
-# #New questions:
+## New questions:
 Q1: Which college majors give the highest incomes?
 Sub-question: How does this take into account spread (i.e. compare 75th vs median vs 25th)
 
@@ -117,16 +189,115 @@ Q3 (alternative): Looking at the results from Q1 and Q2, how do these "rankings"
 
 ## Research Question 1
 
-Insert text and analysis. 
+**Which college major should a student take to receive the highest income?**
 
-Summary: 
+There are three variables to consider when looking at income - the 25th percentile, median, and 75th percentile. Additionally, it is important to consider whether to look at individual majors or major categories. <br> Taking the Median income against major category initially, we get:
 
 ```{r}
-
+ggplot(gradData, aes(x=factor(Major_category), y=Median/1000)) +
+  geom_boxplot(aes(fill = factor(Major_category))) + 
+  theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.ticks.x = element_blank()) +
+  labs(fill = "Major Category", title = "Median Income per Major Category") + 
+  ylab("Median Income ($1000)")
 ```
+<br>
+Removing the outlier in Engineering:
+```{r}
+ggplot(gradData[gradData$Median<100000,], aes(x=factor(Major_category), y=Median/1000)) +
+  geom_boxplot(aes(fill = factor(Major_category))) + 
+  theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.ticks.x = element_blank()) +
+  labs(fill = "Major Category", title = "Median Income per Major Category (Removed Outlier)") + 
+  ylab("Median Income ($1000)")
+```
+<br>
+Looking instead at individual majors, we initially have too many datapoints to make sense of the information. 
+Instead, since the data is already ordered by median income, we can take the top 10 results before graphing:
+<!--Very messy code ahead:-->
+```{r plot top 10 majors by income}
+# Selects top 10
+gradData.head = head(gradData, n=10) 
+# Creates a new data frame to be able to plot median, 25th, and 75th percentiles on the same graph 
+median.df = data.frame(Major = gradData.head$Major, Major_category=gradData.head$Major_category, 
+                       Income = gradData.head$Median)
+p25.df = data.frame(Major = gradData.head$Major, Major_category=gradData.head$Major_category, 
+                       Income = gradData.head$P25th)
+p75.df = data.frame(Major = gradData.head$Major, Major_category=gradData.head$Major_category, 
+                       Income = gradData.head$P75th)
+gradData.head.df = rbind(median.df, p25.df, p75.df)
+# For reordering the majors
+score = rbind(gradData.head, gradData.head, gradData.head)
+# Plots a boxplot
+ggplot(gradData.head.df, aes(x=reorder(Major, -score$Median), y=Income/1000)) + 
+  geom_boxplot(aes(fill = reorder(sub("AND", "\nAND",Major), -score$Median))) +
+  theme(axis.text.x = element_blank(), axis.title.x = element_blank(), 
+        axis.ticks.x = element_blank()) +
+  labs(fill = "Major", title = "Top 10 Majors by Income") + 
+  ylab("Income ($1000)") + xlab("Major")
+```
+<br>
+```{r plot bottom 10 majors by income}
+# Selects bottom 10
+gradData.tail = tail(gradData, n=10)
+# Creates a new data frame to be able to plot median, 25th, and 75th percentiles on the same graph
+median.df = data.frame(Major = gradData.tail$Major, Major_category=gradData.tail$Major_category, 
+                       Income = gradData.tail$Median)
+p25.df = data.frame(Major = gradData.tail$Major, Major_category=gradData.tail$Major_category, 
+                       Income = gradData.tail$P25th)
+p75.df = data.frame(Major = gradData.tail$Major, Major_category=gradData.tail$Major_category, 
+                       Income = gradData.tail$P75th)
+gradData.tail.df = rbind(median.df, p25.df, p75.df)
+# For reordering the majors
+score = rbind(gradData.tail, gradData.tail, gradData.tail)
+# Plots a boxplot
+ggplot(gradData.tail.df, aes(x=reorder(Major, -score$Median), y=Income/1000)) + 
+  geom_boxplot(aes(fill = reorder(sub("AND", "\nAND",Major), -score$Median))) +
+  theme(axis.text.x = element_blank(), axis.title.x = element_blank(), 
+        axis.ticks.x = element_blank()) +
+  labs(fill = "Major", title = "Bottom 10 Majors by Income") + 
+  ylab("Income ($1000)") + xlab("Major")
+```
+<br>
+```{r plot top 5 and bottom 5 majors by income}
+# Selects top 5
+gradData.head = head(gradData, n=5)
+# Creates a new data frame to be able to plot median, 25th, and 75th percentiles on the same graph
+median.df = data.frame(Major = gradData.head$Major, Major_category=gradData.head$Major_category, 
+                       Income = gradData.head$Median)
+p25.df = data.frame(Major = gradData.head$Major, Major_category=gradData.head$Major_category, 
+                       Income = gradData.head$P25th)
+p75.df = data.frame(Major = gradData.head$Major, Major_category=gradData.head$Major_category, 
+                       Income = gradData.head$P75th)
+gradData.head.df = rbind(median.df, p25.df, p75.df)
+# Selects bottom 5
+gradData.tail = tail(gradData, n=5)
+# Creates a new data frame to be able to plot median, 25th, and 75th percentiles on the same graph
+median.df = data.frame(Major = gradData.tail$Major, Major_category=gradData.tail$Major_category, 
+                       Income = gradData.tail$Median)
+p25.df = data.frame(Major = gradData.tail$Major, Major_category=gradData.tail$Major_category, 
+                       Income = gradData.tail$P25th)
+p75.df = data.frame(Major = gradData.tail$Major, Major_category=gradData.tail$Major_category, 
+                       Income = gradData.tail$P75th)
+gradData.tail.df = rbind(median.df, p25.df, p75.df)
+score = rbind(gradData.tail, gradData.tail, gradData.tail)
+# Combines the two
+gradData.tail.df =rbind(gradData.head.df, gradData.tail.df)
+# Orders it
+score = rbind(gradData.head, gradData.head, gradData.head, score)
+# Plots a boxplot
+ggplot(gradData.tail.df, aes(x=reorder(Major, -score$Median), y=Income/1000)) + 
+  geom_boxplot(aes(fill = reorder(sub("AND", "\nAND",Major), -score$Median))) +
+  theme(axis.text.x = element_blank(), axis.title.x = element_blank(), 
+        axis.ticks.x = element_blank()) +
+  labs(fill = "Major", title = "Top 5 and Bottom 5 Majors by Income") + 
+  ylab("Income ($1000)") + xlab("Major")
+```
+<br>
+Interesting to note that the separation of Petroleum Engineering from the other top 5 is comparable to the separation of the top 5 from the bottom 5. 
+<br> <br>
+**Summary**: Petroleum Engineering is ... Engineering is ...
 
 ## Research Question 2
-
+**Which college major should a student pursue to see the greatest prospects for employment?**
 Insert text and analysis. 
 
 Summary: 
@@ -162,6 +333,7 @@ sessionInfo()
 # References
 
 Style: APA 
+Major categories were sourced from ["What's It Worth?: The Economic Value of College Majors." Georgetown University Center on Education and the Workforce, 2011](http://cew.georgetown.edu/whatsitworth). 
 
 <br>
 

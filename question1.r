@@ -21,11 +21,18 @@ ggplot(gradData, aes(x=factor(Major_category), y=percentCollege)) +
   labs(fill = "Major Category", title="Percent College Jobs per Major Category") + 
   ylab("Percentage of Jobs as College Jobs")
 
-# Major vs Income Boxplot
+# Major Category vs Income Boxplot
 #R Removed outlier value <$1e5
 ggplot(gradData[gradData$Median<100000,], aes(x=factor(Major_category), y=Median/1000)) +
   geom_boxplot(aes(fill = factor(Major_category))) + 
   theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.ticks.x = element_blank()) +
   labs(fill = "Major Category", title="Median Income per Major Category") + 
   ylab("Median Income ($1000)")
+
+# Major vs Income Bar Plot
+ggplot(head(gradData, n=10), aes(x=reorder(Major, -Median), y=Median/1000)) + 
+  geom_bar(aes(fill = reorder(Major, -Median)), stat="identity") +
+  theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.ticks.x = element_blank()) +
+  labs(fill = "Major", title = "Top 10 Median Incomes") + 
+  ylab("Median Income ($1000)") + xlab("Major")
 
