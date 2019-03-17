@@ -22,12 +22,17 @@ if (!require(ggplot2)) {
   install.packages("ggplot2")
   library(ggplot2)
 }
+if (!require(plotly)) {
+  install.packages("plotly")
+  library(plotly)
+}
 ```
 
 <!--We suggest 400 words (max) for the Executive Summary, 200 words (max) for the IDA, and 250 words (max) for each of the Research Questions.-->
 
 # Executive Summary
 
+It is important to note that this is an observational study - only association can be inferred, not causation. 
 <br>
 <br>
 
@@ -47,6 +52,8 @@ Note that:
 
 - Data was not adjusted for inflation 
 - "Recent-grads" data was filtered to only include subjects below the age of *28*
+
+### Stakeholders
 
 ### Data Dictionary
 
@@ -129,7 +136,7 @@ The percentage of people unemployed over (unemployed + employed).
 *Assessment*: Suitable. 
 
 #### Median, P25th, P75th {-}
-Meadian, 25th percentile, and 75th percentile earnings respectively for full-time, year-round workers.
+Median, 25th percentile, and 75th percentile earnings respectively for full-time, year-round workers (in USD).
 <br>
 *Type*: Integer 
 <br>
@@ -151,30 +158,13 @@ Number of people with a job requiring a college degree, not requiring a college 
 - We will solve this by ...
 
 ### Data Wrangling
-
+"Military Technologies" major has no data for college-level jobs, therefore we are removing it for this analysis to prevent errors in plotting.
 ```{r}
-# Remove rows with blank values
-```
+# Remove rows with blank values 
+gradData = gradData[gradData$Major != "MILITARY TECHNOLOGIES",]
+``` 
 
 <br>
-
-<!--## Research Question Drafts Old
-
-Q1
-"Is there a correlation between majors that promote higher paying jobs and the associated unemployment rates?" 
-Scatter plot (LOB)
-(Doesn't really work :(((( )
-
-Q1B
-"Is there a correlation between gender ratios and expected income?"
-
-Q2
-"Which college degrees are most relevant to the subsequent job (based on number of college jobs)?" 
-
-Q3 *Based on previous results
-"What are the comparative unemployment rates between Engineering and Liberal Arts graduates?" 
-Unemployment rate between major categories (Simpson's Paradox) potential
-Get top 10 from each Humanities and Liberal Arts + Engineering -->
 
 ## New questions:
 Q1: Which college majors give the highest incomes?
@@ -191,29 +181,23 @@ Q3 (alternative): Looking at the results from Q1 and Q2, how do these "rankings"
 
 **Which college major should a student take to receive the highest income?**
 
-There are three variables to consider when looking at income - the 25th percentile, median, and 75th percentile. Additionally, it is important to consider whether to look at individual majors or major categories. <br> Taking the Median income against major category initially, we get:
+There are three variables to consider when looking at income - the 25th percentile, median, and 75th percentile. Additionally, it is important to consider whether to look at individual majors or major categories. Before plotting data, taking a summary initially tells us that there is a significant range of incomes:
+```{r}
+summary(gradData$Median)
+```
+Plotting the median income against major category, we get:
+```{r warning=FALSE}
+plot_ly(gradData, y=~Median/1000, color=~Major_category, type="box") %>% 
+  layout(    
+    yaxis = list(title = "Median income (USD$1000)"),
+    xaxis = list(showticklabels = FALSE),
+    title = "Median Income per Major Category")
+```
+This backs up the summary, as we see a large spread, centred around the median of $36,000. 
+<br>
+Looking now at individual majors, we initially have too many datapoints to make sense of the information. Instead, ordering the data by median income, we can limit the subjects to only the top and bottom 10 majors (note that this plotted data takes into account median, 25th percentile, and 75th percentile):
 
-```{r}
-ggplot(gradData, aes(x=factor(Major_category), y=Median/1000)) +
-  geom_boxplot(aes(fill = factor(Major_category))) + 
-  theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.ticks.x = element_blank()) +
-  labs(fill = "Major Category", title = "Median Income per Major Category") + 
-  ylab("Median Income ($1000)")
-```
-<br>
-Removing the outlier in Engineering:
-```{r}
-ggplot(gradData[gradData$Median<100000,], aes(x=factor(Major_category), y=Median/1000)) +
-  geom_boxplot(aes(fill = factor(Major_category))) + 
-  theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.ticks.x = element_blank()) +
-  labs(fill = "Major Category", title = "Median Income per Major Category (Removed Outlier)") + 
-  ylab("Median Income ($1000)")
-```
-<br>
-Looking instead at individual majors, we initially have too many datapoints to make sense of the information. 
-Instead, since the data is already ordered by median income, we can take the top 10 results before graphing:
-<!--Very messy code ahead:-->
-```{r plot top 10 majors by income}
+```{r warning=FALSE, include=FALSE}
 # Selects top 10
 gradData.head = head(gradData, n=10) 
 # Creates a new data frame to be able to plot median, 25th, and 75th percentiles on the same graph 
@@ -227,15 +211,21 @@ gradData.head.df = rbind(median.df, p25.df, p75.df)
 # For reordering the majors
 score = rbind(gradData.head, gradData.head, gradData.head)
 # Plots a boxplot
-ggplot(gradData.head.df, aes(x=reorder(Major, -score$Median), y=Income/1000)) + 
-  geom_boxplot(aes(fill = reorder(sub("AND", "\nAND",Major), -score$Median))) +
-  theme(axis.text.x = element_blank(), axis.title.x = element_blank(), 
-        axis.ticks.x = element_blank()) +
-  labs(fill = "Major", title = "Top 10 Majors by Income") + 
-  ylab("Income ($1000)") + xlab("Major")
+plot_ly(gradData.head.df, y=~Income/1000, color=~reorder(sub("AND", "\nAND",Major), -score$Median), type="box") %>%
+  layout(    
+    yaxis = list(
+      title = "Median income (USD$1000)",
+      autotick = FALSE,
+      ticks = "outside",
+      tick0 = 0,
+      dtick = 10,
+      ticklen = 3,
+      tickwidth = 1),
+    xaxis = list(showticklabels = FALSE),
+    title = "Top 10 Majors by Income")
 ```
-<br>
-```{r plot bottom 10 majors by income}
+
+```{r warning=FALSE, include=FALSE}
 # Selects bottom 10
 gradData.tail = tail(gradData, n=10)
 # Creates a new data frame to be able to plot median, 25th, and 75th percentiles on the same graph
@@ -249,17 +239,24 @@ gradData.tail.df = rbind(median.df, p25.df, p75.df)
 # For reordering the majors
 score = rbind(gradData.tail, gradData.tail, gradData.tail)
 # Plots a boxplot
-ggplot(gradData.tail.df, aes(x=reorder(Major, -score$Median), y=Income/1000)) + 
-  geom_boxplot(aes(fill = reorder(sub("AND", "\nAND",Major), -score$Median))) +
-  theme(axis.text.x = element_blank(), axis.title.x = element_blank(), 
-        axis.ticks.x = element_blank()) +
-  labs(fill = "Major", title = "Bottom 10 Majors by Income") + 
-  ylab("Income ($1000)") + xlab("Major")
+plot_ly(gradData.tail.df, y=~Income/1000, color=~reorder(sub("DISORDERS SCIENCES \nAND", "DISORDERS\nSCIENCES AND", sub("AND", "\nAND",Major)), -score$Median), type="box") %>%
+  layout(    
+    yaxis = list(
+      title = "Median income (USD$1000)",
+      autotick = FALSE,
+      ticks = "outside",
+      tick0 = 0,
+      dtick = 2.5,
+      ticklen = 3,
+      tickwidth = 1),
+    xaxis = list(showticklabels = FALSE),
+    title = "Bottom 10 Majors by Income")
+
 ```
-<br>
-```{r plot top 5 and bottom 5 majors by income}
+
+```{r warning=FALSE}
 # Selects top 5
-gradData.head = head(gradData, n=5)
+gradData.head = head(gradData, n=10)
 # Creates a new data frame to be able to plot median, 25th, and 75th percentiles on the same graph
 median.df = data.frame(Major = gradData.head$Major, Major_category=gradData.head$Major_category, 
                        Income = gradData.head$Median)
@@ -269,7 +266,7 @@ p75.df = data.frame(Major = gradData.head$Major, Major_category=gradData.head$Ma
                        Income = gradData.head$P75th)
 gradData.head.df = rbind(median.df, p25.df, p75.df)
 # Selects bottom 5
-gradData.tail = tail(gradData, n=5)
+gradData.tail = tail(gradData, n=10)
 # Creates a new data frame to be able to plot median, 25th, and 75th percentiles on the same graph
 median.df = data.frame(Major = gradData.tail$Major, Major_category=gradData.tail$Major_category, 
                        Income = gradData.tail$Median)
@@ -279,28 +276,33 @@ p75.df = data.frame(Major = gradData.tail$Major, Major_category=gradData.tail$Ma
                        Income = gradData.tail$P75th)
 gradData.tail.df = rbind(median.df, p25.df, p75.df)
 score = rbind(gradData.tail, gradData.tail, gradData.tail)
-# Combines the two
-gradData.tail.df =rbind(gradData.head.df, gradData.tail.df)
+# Combines the two 
+gradData.combined.df =rbind(gradData.head.df, gradData.tail.df)
 # Orders it
 score = rbind(gradData.head, gradData.head, gradData.head, score)
 # Plots a boxplot
-ggplot(gradData.tail.df, aes(x=reorder(Major, -score$Median), y=Income/1000)) + 
-  geom_boxplot(aes(fill = reorder(sub("AND", "\nAND",Major), -score$Median))) +
-  theme(axis.text.x = element_blank(), axis.title.x = element_blank(), 
-        axis.ticks.x = element_blank()) +
-  labs(fill = "Major", title = "Top 5 and Bottom 5 Majors by Income") + 
-  ylab("Income ($1000)") + xlab("Major")
+plot_ly(gradData.combined.df, y=~Income/1000, x=~reorder(Major, -score$Median), color=~Major_category, type="box") %>%
+  layout(    
+    yaxis = list(
+      title = "Median income (USD$1000)",
+      autotick = FALSE,
+      ticks = "outside",
+      tick0 = 0,
+      dtick = 10,
+      ticklen = 3,
+      tickwidth = 1),
+    xaxis = list(showticklabels = FALSE, title=""),
+    title = "Top 10 and Bottom 10 Majors by Median Income")
 ```
+While 9 of the top 10 majors belong to the Engineering category, the bottom 10 majors are considerably more varied, consisting of Biologoy, Business, Education, Health, Humanities & Liberal Arts, and Psychology & Social Work. 
 <br>
-Interesting to note that the separation of Petroleum Engineering from the other top 5 is comparable to the separation of the top 5 from the bottom 5. 
-<br> <br>
-**Summary**: Petroleum Engineering is ... Engineering is ...
 
+**Summary**: <br>
+From this data, it can be inferred that Engineering incomes far exceed that seen in the other categories. Petroleum Engineering in particular is significantly higher than the other majors. Indeed, the separation of Petroleum Engineering from the other top 10 median incomes is comparable to the separation of the top 10 from the bottom 10. However, an important distinction must be made in that the observational nature of this data cannot imply that majoring in Engineering will *cause* one to have a larger income, rather, it can only imply the association between the two. <br>
+<br>
 ## Research Question 2
-**Which college major should a student pursue to see the greatest prospects for employment?**
+**Which college major should a student pursue to see the greatest prospects for employment?** <br>
 Insert text and analysis. 
-
-Summary: 
 
 ```{r}
 percentCollege = gradData$College_jobs/(gradData$College_jobs+gradData$Non_college_jobs+gradData$Low_wage_jobs)
@@ -310,8 +312,12 @@ ggplot(gradData, aes(x=factor(Major_category), y=percentCollege)) +
   labs(fill = "Major Category", title="Percent College Jobs per Major Category") + 
   ylab("Percentage of Jobs as College Jobs")
 ```
+<br>  much of this employment is actually in their field / based on the degree (looking at college jobs vs non-college jobs)?
 
+<br>
 ## Research Question 3
+
+*Looking at the results from Q1 and Q2, how do these "rankings" align with the popularity of these courses?* (based on total people = employed + unemployed)
 
 Insert text and analysis. 
 

@@ -36,3 +36,10 @@ ggplot(head(gradData, n=10), aes(x=reorder(Major, -Median), y=Median/1000)) +
   labs(fill = "Major", title = "Top 10 Median Incomes") + 
   ylab("Median Income ($1000)") + xlab("Major")
 
+#Old boxplot for top 10 majors
+ggplot(gradData.head.df, aes(x=reorder(Major, -score$Median), y=Income/1000)) + 
+  geom_boxplot(aes(fill = reorder(sub("AND", "\nAND",Major), -score$Median))) +
+  theme(axis.text.x = element_blank(), axis.title.x = element_blank(), 
+        axis.ticks.x = element_blank()) +
+  labs(fill = "Major", title = "Top 10 Majors by Income") + 
+  ylab("Income ($1000)") + xlab("Major")
