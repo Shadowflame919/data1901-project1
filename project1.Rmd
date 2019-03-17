@@ -1,8 +1,8 @@
 ---
 title: "DATA1901 Project 1"
-author: "Aitchison 490378115, Braham 490422474, Hempstead XXXXXXXXX"
-subtitle: "On the Influence of US College Majors"
-date: "University of Sydney | Semester 1 | March 2019"
+author: "490378115, 490422474, XXXXXXXXX"
+subtitle: "The Influence of US College Majors"
+date: "University of Sydney | Semester 1 | March 2019 \n "
 output: 
   html_document:
       code_folding: hide
@@ -32,6 +32,7 @@ if (!require(plotly)) {
 
 # Executive Summary
 
+*Something catchy!!!!*
 It is important to note that this is an observational study - only association can be inferred, not causation. 
 <br>
 <br>
@@ -46,14 +47,11 @@ gradData = read.csv("data/recent-grads.csv")
 
 ### Source
 
-Data collected from the American Community Survey 2010 - 2012 Public Use Microdata Series (PUMS Data) at the [USA Census Website](https://www.census.gov/programs-surveys/acs/data/pums.html). It was initially wrangled by American media company [FiveThirtyEight](https://github.com/fivethirtyeight/data/tree/master/college-majors). The code used to wrangle the data can be viewed [here](https://github.com/fivethirtyeight/data/blob/master/college-majors/college-majors-rscript.R). 
-
-Note that:
-
-- Data was not adjusted for inflation 
-- "Recent-grads" data was filtered to only include subjects below the age of *28*
+The data was collected from the American Community Survey 2010 - 2012 Public Use Microdata Sample Files (PUMS) at the [USA Census Website](https://www.census.gov/programs-surveys/acs/data/pums.html). It was initially wrangled by American media company [FiveThirtyEight](https://github.com/fivethirtyeight/data/tree/master/college-majors) (a part of ABC News Internet Ventures). The code used to wrangle the data can be viewed [here](https://github.com/fivethirtyeight/data/blob/master/college-majors/college-majors-rscript.R). 
 
 ### Stakeholders
+According to [their website](https://www.census.gov/programs-surveys/acs/technical-documentation/pums.html), the Census Bureau produces the PUMS as an inexpensive and accessible datasource for students, social scientists, and marketing analysists. The media company *FiveThirtyEight* sorted this data and created the dataset for use in their article [The Economic Guide to Picking a College Major](https://www.census.gov/programs-surveys/acs/technical-documentation/pums.html), aimed at educating students on how to best choose their own college majors. <br>
+While the Census Bureau is a government organisation and therefore can be assumed to be unbiased, FiveThirtyEight's article was commercially motivated, as the website runs advertisements. However, FiveThirtyEight's interpretation of the data was quite transparent, given that they provided the code and made minimal changes to the actual content of the data. The data can therefore be considered unbiased and valid. 
 
 ### Data Dictionary
 
@@ -152,10 +150,17 @@ Number of people with a job requiring a college degree, not requiring a college 
 
 ### Data Assessment
 
-- The data is valid because ...
-- Possible issues include ...
-  - Missing values in some rows
-- We will solve this by ...
+**Possible Issues**: <br>
+
+ * Some values in the dataset are blank, and therefore need to be removed prior to analysis.
+ * The data consists of pre-summarised information, meaning that each subject (major) is a set of medians, percentages, etc. Therefore, care needs to be made in plotting and drawing conclusions. 
+ * The data is categorised as an *observational study*, lacking in a control group and randomised allocation between majors. Therefore, any conclusions drawn must be treated as associativity rather than causality. 
+ * Income has not been adjusted for inflation, however, this is not a major issue considering we are concerned with the relative comparisons. 
+ * Data has been pre-filtered to only include subjects below the age of 28, and therefore can be considered a sample, not a population. However, this can also be a positive in that it is more relevant to current university students.
+ 
+<br>
+**Validity**: <br>
+This data, taking into account the issues above and their solutions, can be considered valid.
 
 ### Data Wrangling
 "Military Technologies" major has no data for college-level jobs, therefore we are removing it for this analysis to prevent errors in plotting.
@@ -300,6 +305,7 @@ While 9 of the top 10 majors belong to the Engineering category, the bottom 10 m
 **Summary**: <br>
 From this data, it can be inferred that Engineering incomes far exceed that seen in the other categories. Petroleum Engineering in particular is significantly higher than the other majors. Indeed, the separation of Petroleum Engineering from the other top 10 median incomes is comparable to the separation of the top 10 from the bottom 10. However, an important distinction must be made in that the observational nature of this data cannot imply that majoring in Engineering will *cause* one to have a larger income, rather, it can only imply the association between the two. <br>
 <br>
+
 ## Research Question 2
 **Which college major should a student pursue to see the greatest prospects for employment?** <br>
 Insert text and analysis. 
@@ -315,6 +321,7 @@ ggplot(gradData, aes(x=factor(Major_category), y=percentCollege)) +
 <br>  much of this employment is actually in their field / based on the degree (looking at college jobs vs non-college jobs)?
 
 <br>
+
 ## Research Question 3
 
 *Looking at the results from Q1 and Q2, how do these "rankings" align with the popularity of these courses?* (based on total people = employed + unemployed)
