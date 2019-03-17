@@ -2,7 +2,7 @@
 title: "DATA1901 Project 1"
 author: "490378115, 490422474, XXXXXXXXX"
 subtitle: "The Influence of US College Majors"
-date: "University of Sydney | Semester 1 | March 2019 \n "
+date: "University of Sydney | Semester 1 2019 | Lab Session Monday 9am | Carslaw LS 353"
 output: 
   html_document:
       code_folding: hide
