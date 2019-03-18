@@ -1,6 +1,6 @@
 ---
 title: "DATA1901 Project 1"
-author: "490378115, 490422474, XXXXXXXXX"
+author: "490378115, 490422474, 490424010"
 subtitle: "The Influence of US College Majors"
 date: "University of Sydney | Semester 1 2019 | Lab Session Monday 9am | Carslaw LS 353"
 output: 
