@@ -28,12 +28,13 @@ if (!require(plotly)) {
 }
 ```
 
-<!--We suggest 400 words (max) for the Executive Summary, 200 words (max) for the IDA, and 250 words (max) for each of the Research Questions.-->
+<!--200 words Executive Summary, 400 words for the IDA, and 250 words (max) for each of the Research Questions.-->
 
 # Executive Summary
 
-*Something catchy!!!!*
+*Something catchy!* What the executive wants to see - something that interests them. 
 It is important to note that this is an observational study - only association can be inferred, not causation. 
+Therefore, an important distinction must be made in that the observational nature of this data cannot imply that majoring in Engineering will *cause* one to have a larger income, rather, it can only imply the association between the two.
 <br>
 <br>
 
@@ -41,7 +42,7 @@ It is important to note that this is an observational study - only association c
 
 ## Initial Data Analysis (IDA)
 
-```{r loadData}
+```{r loadData, include=FALSE}
 gradData = read.csv("data/recent-grads.csv")
 ```
 
@@ -50,17 +51,16 @@ gradData = read.csv("data/recent-grads.csv")
 The data was collected from the American Community Survey 2010 - 2012 Public Use Microdata Sample Files (PUMS) at the [USA Census Website](https://www.census.gov/programs-surveys/acs/data/pums.html). It was initially wrangled by American media company [FiveThirtyEight](https://github.com/fivethirtyeight/data/tree/master/college-majors) (a part of ABC News Internet Ventures). The code used to wrangle the data can be viewed [here](https://github.com/fivethirtyeight/data/blob/master/college-majors/college-majors-rscript.R). 
 
 ### Stakeholders
-According to [their website](https://www.census.gov/programs-surveys/acs/technical-documentation/pums.html), the Census Bureau produces the PUMS as an inexpensive and accessible datasource for students, social scientists, and marketing analysists. The media company *FiveThirtyEight* sorted this data and created the dataset for use in their article [The Economic Guide to Picking a College Major](https://www.census.gov/programs-surveys/acs/technical-documentation/pums.html), aimed at educating students on how to best choose their own college majors. <br>
+According to [their website](https://www.census.gov/programs-surveys/acs/technical-documentation/pums.html), the Census Bureau produces the PUMS as an inexpensive and accessible datasource for students, social scientists, and marketing analysists. The media company *FiveThirtyEight* sorted this data and created the dataset for use in their article [The Economic Guide to Picking a College Major](https://www.census.gov/programs-surveys/acs/technical-documentation/pums.html), aimed at educating students on how to best choose their own college majors. <br> <br>
 While the Census Bureau is a government organisation and therefore can be assumed to be unbiased, FiveThirtyEight's article was commercially motivated, as the website runs advertisements. However, FiveThirtyEight's interpretation of the data was quite transparent, given that they provided the code and made minimal changes to the actual content of the data. The data can therefore be considered unbiased and valid. 
 
 ### Data Dictionary
 
 ```{r}
-# View the structure of the data:
 str(gradData)
 ```
 
-This data consists of 20 variables (excluding "Rank" which orders the subjects by Median income). 
+This data consists of 20 variables (excluding "Rank" which orders the subjects by Median income), however, only xx variables are relevant for the study:
 
 #### Major_code {-}
 A unique code for each major, given by the [source](https://www.census.gov/programs-surveys/acs/data/pums.html). <br>
@@ -86,7 +86,7 @@ Amount of total people, men, and women respectively with that major in the sampl
 #### Major_category {-}
 General category for that major (e.g. "Engineering").
 <br>
-*Type*: Factir 
+*Type*: Factor 
 <br>
 *Assessment*: Suitable - allows for easy classification and plotting.
 
@@ -171,6 +171,10 @@ gradData = gradData[gradData$Major != "MILITARY TECHNOLOGIES",]
 
 <br>
 
+### Domain Knowledge
+
+xxxxxx
+
 ## New questions:
 Q1: Which college majors give the highest incomes?
 Sub-question: How does this take into account spread (i.e. compare 75th vs median vs 25th)
@@ -178,19 +182,16 @@ Sub-question: How does this take into account spread (i.e. compare 75th vs media
 Q2: Which college majors give the highest employability (based on unemployment)?
 Sub-question: How much of this employment is actually in their field / based on the degree (looking at college jobs vs non-college jobs)?
 
-Q3: Which college majors pay the most per time worked (looking at % full time)? 
-
-Q3 (alternative): Looking at the results from Q1 and Q2, how do these "rankings" align with the popularity of these courses (based on total people = employed + unemployed)
+Q3: Looking at the results from Q1 and Q2, how do these "rankings" align with the popularity of these courses (based on total people = employed + unemployed)
 
 ## Research Question 1
 
 **Which college major should a student take to receive the highest income?**
 
-There are three variables to consider when looking at income - the 25th percentile, median, and 75th percentile. Additionally, it is important to consider whether to look at individual majors or major categories. Before plotting data, taking a summary initially tells us that there is a significant range of incomes:
+There are three variables to consider - the 25th percentile, median, and 75th percentile incomes. Additionally, it is important to consider both individual majors and major categories. Taking a summary initially shows that there is a significant range of incomes:
 ```{r}
 summary(gradData$Median)
 ```
-Plotting the median income against major category, we get:
 ```{r warning=FALSE}
 plot_ly(gradData, y=~Median/1000, color=~Major_category, type="box") %>% 
   layout(    
@@ -198,9 +199,8 @@ plot_ly(gradData, y=~Median/1000, color=~Major_category, type="box") %>%
     xaxis = list(showticklabels = FALSE),
     title = "Median Income per Major Category")
 ```
-This backs up the summary, as we see a large spread, centred around the median of $36,000. 
+Plotting the median income against major category backs up the summary - showing a large spread, centred around the median of $36,000. 
 <br>
-Looking now at individual majors, we initially have too many datapoints to make sense of the information. Instead, ordering the data by median income, we can limit the subjects to only the top and bottom 10 majors (note that this plotted data takes into account median, 25th percentile, and 75th percentile):
 
 ```{r warning=FALSE, include=FALSE}
 # Selects top 10
@@ -260,7 +260,7 @@ plot_ly(gradData.tail.df, y=~Income/1000, color=~reorder(sub("DISORDERS SCIENCES
 ```
 
 ```{r warning=FALSE}
-# Selects top 5
+# Selects top 10
 gradData.head = head(gradData, n=10)
 # Creates a new data frame to be able to plot median, 25th, and 75th percentiles on the same graph
 median.df = data.frame(Major = gradData.head$Major, Major_category=gradData.head$Major_category, 
@@ -270,7 +270,7 @@ p25.df = data.frame(Major = gradData.head$Major, Major_category=gradData.head$Ma
 p75.df = data.frame(Major = gradData.head$Major, Major_category=gradData.head$Major_category, 
                        Income = gradData.head$P75th)
 gradData.head.df = rbind(median.df, p25.df, p75.df)
-# Selects bottom 5
+# Selects bottom 10
 gradData.tail = tail(gradData, n=10)
 # Creates a new data frame to be able to plot median, 25th, and 75th percentiles on the same graph
 median.df = data.frame(Major = gradData.tail$Major, Major_category=gradData.tail$Major_category, 
@@ -299,12 +299,37 @@ plot_ly(gradData.combined.df, y=~Income/1000, x=~reorder(Major, -score$Median), 
     xaxis = list(showticklabels = FALSE, title=""),
     title = "Top 10 and Bottom 10 Majors by Median Income")
 ```
-While 9 of the top 10 majors belong to the Engineering category, the bottom 10 majors are considerably more varied, consisting of Biologoy, Business, Education, Health, Humanities & Liberal Arts, and Psychology & Social Work. 
-<br>
+Looking at individual majors, there are initially have too many datapoints to make sense of the information. Instead, ordering the data by median income, the subjects can be limited to only the top and bottom 10 majors (note that this plotted data takes into account median, 25th percentile, and 75th percentile). While 9 of the top 10 majors belong to the Engineering category, the bottom 10 majors are considerably more varied. 
 
-**Summary**: <br>
-From this data, it can be inferred that Engineering incomes far exceed that seen in the other categories. Petroleum Engineering in particular is significantly higher than the other majors. Indeed, the separation of Petroleum Engineering from the other top 10 median incomes is comparable to the separation of the top 10 from the bottom 10. However, an important distinction must be made in that the observational nature of this data cannot imply that majoring in Engineering will *cause* one to have a larger income, rather, it can only imply the association between the two. <br>
 <br>
+```{r}
+combined = rbind(gradData[gradData$Major_category=="Engineering",],
+                 gradData[gradData$Major_category=="Education",], gradData[gradData$Major_category=="Business",])
+median.df = data.frame(Major = combined$Major, Major_category=combined$Major_category, 
+                       Income = combined$Median)
+p25.df = data.frame(Major = combined$Major, Major_category=combined$Major_category, 
+                       Income = combined$P25th)
+p75.df = data.frame(Major = combined$Major, Major_category=combined$Major_category, 
+                       Income = combined$P75th)
+combined.df = rbind(median.df, p25.df, p75.df)
+ggplotly(ggplot(combined.df, aes(x=Income/1000, fill=Major_category)) + geom_density(alpha=0.2) + 
+           xlab("Income (USD$1000)") + ylab("Density") + labs(fill="Major Category", title="Income Density per Major Category"))
+```
+
+Examining the density estimation of a selection of major categories, again Engineering appears to have significantly higher incomes compared to other categories. However, the estimation shows that the spread is also significantly larger, with a portion of the income falling within the range of the lowest majors. This is contrasted with Education, where the range is confined to ~$25,000.  
+```{r}
+# Coefficient of Variation for the Engineering sample's incomes
+sd(combined.df[combined.df$Major_category=="Engineering",]$Income)/
+  mean(combined.df[combined.df$Major_category=="Engineering",]$Income) 
+# Coefficient of Variation for the Education sample's incomes
+sd(combined.df[combined.df$Major_category=="Education",]$Income)/
+  mean(combined.df[combined.df$Major_category=="Education",]$Income) 
+```
+This is re-iterated by the coefficient of variation for Engineering being over 150% that of Education's. 
+<br> <br>
+**Summary**: <br>
+The data shows that Engineering incomes can far exceed those in other categories, with Petroleum Engineering in particular being significantly higher than the other majors. Indeed, the separation of Petroleum Engineering from the other top 10 median incomes is comparable to the separation of the top 10 from the bottom 10. However, Engineering incomes overall have a significantly larger spread than the other categories, implying a volatility either between majors or within the industries themselves. Nevertheless, students seeking high incomes may be best to look towards Engineering fields. 
+<br><br>
 
 ## Research Question 2
 **Which college major should a student pursue to see the greatest prospects for employment?** <br>
@@ -318,7 +343,7 @@ ggplot(gradData, aes(x=factor(Major_category), y=percentCollege)) +
   labs(fill = "Major Category", title="Percent College Jobs per Major Category") + 
   ylab("Percentage of Jobs as College Jobs")
 ```
-<br>  much of this employment is actually in their field / based on the degree (looking at college jobs vs non-college jobs)?
+<br>How much of this employment is actually in their field / based on the degree (looking at college jobs vs non-college jobs)?
 
 <br>
 
@@ -332,11 +357,7 @@ Summary:
 
 <br>
 
-# Conclusions
 
-Insert text.
-
-<br>
 
 ```{r}
 sessionInfo()
@@ -347,13 +368,6 @@ sessionInfo()
 
 Style: APA 
 Major categories were sourced from ["What's It Worth?: The Economic Value of College Majors." Georgetown University Center on Education and the Workforce, 2011](http://cew.georgetown.edu/whatsitworth). 
-
-<br>
-
-# Personal reflection on group work
-
-- The way I contributed was ...
-- What I learnt about group work was ... 
 
 <br>
 
