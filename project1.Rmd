@@ -152,7 +152,6 @@ Number of people with a job requiring a college degree, not requiring a college 
 
 **Possible Issues**: <br>
 
- * Some values in the dataset are blank, and therefore need to be removed prior to analysis.
  * The data consists of pre-summarised information, meaning that each subject (major) is a set of medians, percentages, etc. Therefore, care needs to be made in plotting and drawing conclusions. 
  * The data is categorised as an *observational study*, lacking in a control group and randomised allocation between majors. Therefore, any conclusions drawn must be treated as associativity rather than causality. 
  * Income has not been adjusted for inflation, however, this is not a major issue considering we are concerned with the relative comparisons. 
@@ -161,15 +160,6 @@ Number of people with a job requiring a college degree, not requiring a college 
 <br>
 **Validity**: <br>
 This data, taking into account the issues above and their solutions, can be considered valid.
-
-### Data Wrangling
-"Military Technologies" major has no data for college-level jobs, therefore we are removing it for this analysis to prevent errors in plotting.
-```{r}
-# Remove rows with blank values 
-gradData = gradData[gradData$Major != "MILITARY TECHNOLOGIES",]
-``` 
-
-<br>
 
 ### Domain Knowledge
 
@@ -299,7 +289,7 @@ plot_ly(gradData.combined.df, y=~Income/1000, x=~reorder(Major, -score$Median), 
     xaxis = list(showticklabels = FALSE, title=""),
     title = "Top 10 and Bottom 10 Majors by Median Income")
 ```
-Looking at individual majors, there are initially have too many datapoints to make sense of the information. Instead, ordering the data by median income, the subjects can be limited to only the top and bottom 10 majors (note that this plotted data takes into account median, 25th percentile, and 75th percentile). While 9 of the top 10 majors belong to the Engineering category, the bottom 10 majors are considerably more varied. 
+Looking at individual majors, there are initially too many data-points to make sense of the information. Instead, ordering the data by median income, the subjects can be limited to only the top and bottom 10 majors (note that this plotted data takes into account median, 25th percentile, and 75th percentile). While 9 of the top 10 majors belong to the Engineering category, the bottom 10 majors are considerably more varied. 
 
 <br>
 ```{r}
@@ -313,7 +303,7 @@ p75.df = data.frame(Major = combined$Major, Major_category=combined$Major_catego
                        Income = combined$P75th)
 combined.df = rbind(median.df, p25.df, p75.df)
 ggplotly(ggplot(combined.df, aes(x=Income/1000, fill=Major_category)) + geom_density(alpha=0.2) + 
-           xlab("Income (USD$1000)") + ylab("Density") + labs(fill="Major Category", title="Income Density per Major Category"))
+           xlab("Income (USD$1000)") + ylab("Density") + labs(fill="Major Category", title="Income Density per Major Category") + theme_minimal())
 ```
 
 Examining the density estimation of a selection of major categories, again Engineering appears to have significantly higher incomes compared to other categories. However, the estimation shows that the spread is also significantly larger, with a portion of the income falling within the range of the lowest majors. This is contrasted with Education, where the range is confined to ~$25,000.  
@@ -325,10 +315,10 @@ sd(combined.df[combined.df$Major_category=="Engineering",]$Income)/
 sd(combined.df[combined.df$Major_category=="Education",]$Income)/
   mean(combined.df[combined.df$Major_category=="Education",]$Income) 
 ```
-This is re-iterated by the coefficient of variation for Engineering being over 150% that of Education's. 
+This is re-iterated by the coefficient of variation for Engineering being over 150% of Education's. 
 <br> <br>
 **Summary**: <br>
-The data shows that Engineering incomes can far exceed those in other categories, with Petroleum Engineering in particular being significantly higher than the other majors. Indeed, the separation of Petroleum Engineering from the other top 10 median incomes is comparable to the separation of the top 10 from the bottom 10. However, Engineering incomes overall have a significantly larger spread than the other categories, implying a volatility either between majors or within the industries themselves. Nevertheless, students seeking high incomes may be best to look towards Engineering fields. 
+The data shows that Engineering incomes can far exceed those in other categories, with Petroleum Engineering in particular being significantly higher than the other majors. Indeed, the separation of Petroleum Engineering from the other top 10 median incomes is comparable to the separation of the top 10 from the bottom 10. However, Engineering incomes overall have a significantly larger spread than the other categories, implying a volatility either between majors or within the industries themselves. Nevertheless, students seeking high incomes may be best suited to look towards Engineering fields. 
 <br><br>
 
 ## Research Question 2
@@ -358,16 +348,15 @@ Summary:
 <br>
 
 
-
-```{r}
-sessionInfo()
-```
-
-
 # References
 
 Style: APA 
 Major categories were sourced from ["What's It Worth?: The Economic Value of College Majors." Georgetown University Center on Education and the Workforce, 2011](http://cew.georgetown.edu/whatsitworth). 
 
 <br>
+
+```{r}
+sessionInfo()
+```
+
 
