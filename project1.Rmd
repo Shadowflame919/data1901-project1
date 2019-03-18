@@ -302,8 +302,19 @@ p25.df = data.frame(Major = combined$Major, Major_category=combined$Major_catego
 p75.df = data.frame(Major = combined$Major, Major_category=combined$Major_category, 
                        Income = combined$P75th)
 combined.df = rbind(median.df, p25.df, p75.df)
-ggplotly(ggplot(combined.df, aes(x=Income/1000, fill=Major_category)) + geom_density(alpha=0.2) + 
+ggplotly(ggplot(combined.df, aes(x=Income/1000, fill=Major_category)) + geom_density(alpha=0.2) +
            xlab("Income (USD$1000)") + ylab("Density") + labs(fill="Major Category", title="Income Density per Major Category") + theme_minimal())
+
+combined = gradData
+median.df = data.frame(Major = combined$Major, Major_category=strtrim(combined$Major_category, 25), 
+                       Income = combined$Median)
+p25.df = data.frame(Major = combined$Major, Major_category=strtrim(combined$Major_category, 25), 
+                       Income = combined$P25th)
+p75.df = data.frame(Major = combined$Major, Major_category=strtrim(combined$Major_category, 25), 
+                       Income = combined$P75th)
+combined.df = rbind(median.df, p25.df, p75.df)
+ggplotly(ggplot(combined.df, aes(x=Income/1000, fill=Major_category)) + geom_density(alpha=0.2) + facet_wrap(~Major_category) +
+           xlab("Income (USD$1000)") + ylab("Density") + labs(title="Income Density per Major Category") + theme_minimal() + theme(legend.position="none"))
 ```
 
 Examining the density estimation of a selection of major categories, again Engineering appears to have significantly higher incomes compared to other categories. However, the estimation shows that the spread is also significantly larger, with a portion of the income falling within the range of the lowest majors. This is contrasted with Education, where the range is confined to ~$25,000.  
