@@ -188,6 +188,7 @@ There are three variables to consider - the 25th percentile, median, and 75th pe
 ```{r}
 summary(gradData$Median)
 ```
+<p style="color:red">STATE MEANING OF RED LINE?</p>
 ```{r warning=FALSE}
 hline <- function(y = 0) {
   list(
@@ -340,10 +341,10 @@ ggplotly(ggplot(combined.df, aes(x=Income/1000, fill=Major_category)) + geom_den
 Examining the density estimation of a selection of major categories, again Engineering appears to have significantly higher incomes compared to other categories. However, the estimation shows that the spread is also significantly larger, with a portion of the income falling within the range of the lowest majors. This is contrasted with Education, where the range is confined to ~$25,000.  
 ```{r}
 # Coefficient of Variation for the Engineering sample's incomes
-paste("Coefficient of Variation for Engineering:", sd(combined.df[combined.df$Major_category=="Engineering",]$Income)/
+message("Coefficient of Variation for Engineering: ", sd(combined.df[combined.df$Major_category=="Engineering",]$Income)/
   mean(combined.df[combined.df$Major_category=="Engineering",]$Income)) 
 # Coefficient of Variation for the Education sample's incomes
-paste("Coefficient of Variation for Education:", sd(combined.df[combined.df$Major_category=="Education",]$Income)/
+message("Coefficient of Variation for Education: ", sd(combined.df[combined.df$Major_category=="Education",]$Income)/
   mean(combined.df[combined.df$Major_category=="Education",]$Income)) 
 ```
 This is re-iterated by the coefficient of variation for Engineering being over 150% of Education's. 
