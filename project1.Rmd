@@ -177,20 +177,9 @@ Recently, a research article has shown that "since the [GFC] downturn college st
 **Validity**: <br>
 This data, taking into account the issues above and their solutions, can be considered valid.
 
-
-
-## New questions:
-Q1: Which college majors give the highest incomes?
-Sub-question: How does this take into account spread (i.e. compare 75th vs median vs 25th)
-
-Q2: Which college majors give the highest employability (based on unemployment)?
-Sub-question: How much of this employment is actually in their field / based on the degree (looking at college jobs vs non-college jobs)?
-
-Q3: Looking at the results from Q1 and Q2, how do these "rankings" align with the popularity of these courses (based on total people = employed + unemployed)
-
 ## Research Question 1
 
-**Which college major should a student take to receive the highest income?**
+> Which college major should a student take to receive the highest income?
 
 There are three variables to consider - the 25th percentile, median, and 75th percentile incomes. Additionally, it is important to consider both individual majors and major categories. Taking a summary initially shows that there is a significant range of incomes:
 ```{r}
@@ -349,7 +338,9 @@ The data shows that Engineering incomes can far exceed those in other categories
 <br><br>
 
 ## Research Question 2
-**Which college major should a student pursue to see the greatest prospects for employment?** <br>
+> Which college major should a student pursue to see the greatest prospects for employment? 
+
+<br>
 Insert text and analysis. 
 
 ```{r}
@@ -366,7 +357,9 @@ ggplot(gradData, aes(x=factor(Major_category), y=percentCollege)) +
 
 ## Research Question 3
 
-*Looking at the results from Q1 and Q2, how do these "rankings" align with the popularity of these courses?* (based on total people = employed + unemployed)
+> Looking at the results from Q1 and Q2, how do these "rankings" align with the popularity of these courses? 
+
+(based on total people = employed + unemployed)
 
 Insert text and analysis. 
 
