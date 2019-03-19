@@ -32,7 +32,7 @@ if (!require(plotly)) {
 
 # Executive Summary
 
-*Education. Work. Money*: three words almost guaranteed to be at the forefront of a student's mind as they contemplate their future upon leaving high school. With more and more opportunities for anyone to pursue almost any degree in any field, the inevitable question of *"Which major should I take?:"* is becoming a harder and harder choice for students across the world. <br><br>
+*Education. Work. Money*: three words almost guaranteed to be at the forefront of a student's mind as they contemplate their future upon leaving highschool. With more and more opportunities for anyone to pursue almost any degree in any field, the inevitable question of *"Which major should I take?:"* is becoming a harder and harder choice for students across the world. <br><br>
 In this research project, data from over 6.7 million college graduates in the USA has been analysed to examine key questions regarding:
 
 * Which college major should a student take to receive the highest income?
@@ -54,13 +54,20 @@ Additionally, POPULARITY.
 gradData = read.csv("data/recent-grads.csv")
 ```
 
+### Domain Knowledge
+
+1. In 2012, the median personal income for the US was [\$28,213](#medi), with unemployment at [8.1% for 2012](#unemp). 
+
+2. Recently, a research article has shown that "since the [GFC]... students have turned away from the humanities and towards job-oriented degrees" [(Kopf, 2018)](#kopf), with the share of degrees in history dropping from 2% 2007 to 1% 2017 [(Kopf, 2018)](#kopf). This seems to reflect "a new set of student priorities... formed even before they see the inside of a college classroom... Students [are] fleeing humanities and related fields specifically because they think they have poor job prospects." [(Schmidt, 2018)](#schmidt).<br><br> 
+
 ### Source
 
-The data was collected from the American Community Survey 2010 - 2012 Public Use Microdata Sample Files (PUMS) at the [USA Census Website](https://www.census.gov/programs-surveys/acs/data/pums.html). It was initially wrangled by American media company [FiveThirtyEight](#fivethirty) (a part of ABC News Internet Ventures). The code used to wrangle the data can be viewed [here](https://github.com/fivethirtyeight/data/blob/master/college-majors/college-majors-rscript.R). 
+The data was collected from the American Community Survey 2010 - 2012 Public Use Microdata Sample Files (PUMS) at the [USA Census Website](https://www.census.gov/programs-surveys/acs/data/pums.html). It was initially wrangled by media company [FiveThirtyEight](#fivethirty) (a part of ABC News Internet Ventures), with code accessible [here](https://github.com/fivethirtyeight/data/blob/master/college-majors/college-majors-rscript.R). 
 
 ### Stakeholders
-According to [their website](#census), the Census Bureau produces the PUMS as an inexpensive and accessible datasource for students, social scientists, and marketing analysists. The media company *FiveThirtyEight* sorted this data and created the dataset for use in their article [The Economic Guide to Picking a College Major](#economicguide), aimed at educating students on how to best choose their own college majors. <br> <br>
-While the Census Bureau is a government organisation and therefore can be assumed to be unbiased, FiveThirtyEight's article was commercially motivated, as the website runs advertisements. However, FiveThirtyEight's interpretation of the data was quite transparent, given that they provided the code and made minimal changes to the actual content of the data. The data can therefore be considered unbiased and valid. 
+[The Census Bureau](#census) produces the PUMS as an inexpensive and accessible datasource for students and social scientists, while FiveThirtyEight wrangled this data for commercial use in their article [The Economic Guide to Picking a College Major](#economicguide), aimed at educating students on how to choose their college majors. <br> <br>
+Drawing upon the domain knowledge, this data is particularly relevant to highschool leavers trying to choose a major, as well as current students contemplating their career prospects, as it may help them make a more informed economic decision. <br><br>
+University staff, intership firms, or other organisations may also find benefit in predicting the future direction of the workforce, allowing for better resource allocation, such as investment into engineering and STEM fields. 
 
 ### Data Dictionary
 
@@ -158,24 +165,19 @@ Number of people with a job requiring a college degree, not requiring a college 
 *Assessment*: Suitable. 
 
 
-### Domain Knowledge
-
-In 2012, the median personal income for the US was [\$28,213](#medi), with unemployment rates at [8.1% for 2012](#unemp). <br><br>
-
-Recently, a research article has shown that "since the [GFC] downturn college students have turned away from the humanities and towards job-oriented degrees" [(Kopf, 2018)](#kopf), with the share of college students graduating with a degree in history dropping from 2% 2007 to 1% 2017 [(Kopf, 2018)](#kopf). This seems to reflect "a new set of student priorities, which are being formed even before they see the inside of a college classroom... Students [are] fleeing humanities and related fields specifically because they think they have poor job prospects." [(Schmidt, 2018)](#schmidt).<br><br> 
 
 ### Data Assessment
 
 **Possible Issues**: <br>
 
- * The data consists of pre-summarised information, meaning that each subject (major) is a set of medians, percentages, etc. Therefore, care needs to be made in plotting and drawing conclusions. 
+ * The data consists of pre-summarised information, where each subject is a set of medians, percentages, etc. Therefore, care needs to be made in plotting and drawing conclusions. 
  * The data is categorised as an *observational study*, lacking in a control group and randomised allocation between majors. Therefore, any conclusions drawn must be treated as associativity rather than causality. 
  * The data is 7 years old, and income has not been adjusted for inflation. However, this is not a major issue considering relative comparisons are being made. 
- * The data has been pre-filtered to only include subjects below the age of 28, and therefore can be considered a sample, not a population. However, this can also be a positive in that it is more relevant to current university students.
+ * The data has been pre-filtered to only include subjects below the age of 28. However, this can be positive in that it is more relevant to current university students.
  
 <br>
 **Validity**: <br>
-This data, taking into account the issues above and their solutions, can be considered valid.
+This data, taking into account the issues above and their solutions, can be considered valid. However, care must be taken to acknowledge confounders, such as personality and circumstance, rather than just major choice, in influencing the variables. 
 
 ## Research Question 1
 
