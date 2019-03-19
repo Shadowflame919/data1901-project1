@@ -1,16 +1,33 @@
-# 
-# Write a script that searches for simpsons paradox
-# 
-# Compare 
-#
+gradData = read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/recent-grads.csv")
+library(ggplot2)
+
+# Exclude Food Science, as it has missing data.
+gradTotalData = gradData[!(gradData$Major=="FOOD SCIENCE"),]
+
+# Order our data by the total number of graduates
+gradTotalData = gradTotalData[order(gradTotalData$Total),]
+
+total_grads = sum(gradTotalData$Total)
+
+bottom_ten_majors_by_total = data.frame("Major" = gradTotalData$Major[1:10])
 
 
-#plot = ggplot(majors, aes(x=Median, y=Unemployment_rate))
+top_ten_majors_by_total = data.frame("Major" = gradTotalData$Major[(length(gradTotalData$Major) - 9):length(gradTotalData$Major)])
 
-eng = majors[majors$Major_category=="Engineering",]
-art = majors[majors$Major_category=="Industrial Arts & Consumer Services",]
+combined_majors_by_total = rbind(top_ten_majors_by_total, bottom_ten_majors_by_total, by="Major")
 
-com = majors[majors$Major_category=="Engineering" | majors$Major_category=="Humanities & Liberal Arts",]
+major_popularity_data = data.frame(top_ten_majors_by_total, bottom_ten_majors_by_total)
+#plot = ggplot(gradTotalData, aes(x=Median, y=Unemployment_rate, color=Major))
+#plot + geom_point()
 
-plot = ggplot(com, aes(x=Median, y=Unemployment_rate, color=Major_category))
-plot + geom_point()
+
+
+
+
+
+
+
+
+#PROBLEMS:
+#"Graduates" isn't necessarily a metric of popularity. 
+# i.e. 'Psychology' could be considered an easier course and therefore recieve more graduates
