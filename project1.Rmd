@@ -62,7 +62,8 @@ gradData = read.csv("data/recent-grads.csv")
 
 ### Source
 
-The data was collected from the American Community Survey 2010 - 2012 Public Use Microdata Sample Files (PUMS) at the [USA Census Website](https://www.census.gov/programs-surveys/acs/data/pums.html). It was initially wrangled by media company [FiveThirtyEight](#fivethirty) (a part of ABC News Internet Ventures), with code accessible [here](https://github.com/fivethirtyeight/data/blob/master/college-majors/college-majors-rscript.R). 
+The data was collected from the American Community Survey 2010 - 2012 Public Use Microdata Sample Files (PUMS) at the [USA Census Website](https://www.census.gov/programs-surveys/acs/data/pums.html). It was initially wrangled by media company [FiveThirtyEight](#fivethirty) (a part of ABC News Internet Ventures), with code accessible [here](https://github.com/fivethirtyeight/data/blob/master/college-majors/college-majors-rscript.R). <br><br>
+The US Bureau of the Census is a government body, and although FiveThirtyEight had commercial interests, their process of data wrangling was highly transparent and reproducible. Therefore these sources can be considered reliable.
 
 ### Stakeholders
 [The Census Bureau](#census) produces the PUMS as an inexpensive and accessible datasource for students and social scientists, while FiveThirtyEight wrangled this data for commercial use in their article [The Economic Guide to Picking a College Major](#economicguide), aimed at educating students on how to choose their college majors. <br> <br>
@@ -188,11 +189,23 @@ There are three variables to consider - the 25th percentile, median, and 75th pe
 summary(gradData$Median)
 ```
 ```{r warning=FALSE}
+hline <- function(y = 0) {
+  list(
+    type = "line", 
+    x0 = 0, 
+    x1 = 1, 
+    xref = "paper",
+    y0 = y, 
+    y1 = y, 
+    line = list(color = "red", width=1)
+  )
+}
 plot_ly(gradData, y=~Median/1000, color=~Major_category, type="box") %>% 
   layout(    
     yaxis = list(title = "Median income (USD$1000)"),
     xaxis = list(showticklabels = FALSE),
-    title = "Median Income per Major Category")
+    title = "Median Income per Major Category",
+    shapes = list(hline(36)))
 ```
 Plotting the median income against major category backs up the summary - showing a large spread, centred around the median of $36,000. 
 <br>
