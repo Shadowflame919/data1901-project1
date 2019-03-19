@@ -313,6 +313,7 @@ plot_ly(gradData.combined.df, y=~Income/1000, x=~reorder(Major, -score$Median), 
 Looking at individual majors, there are initially too many data-points to make sense of the information. Instead, ordering the data by median income, the subjects can be limited to only the top and bottom 10 majors (note that this plotted data takes into account median, 25th percentile, and 75th percentile). While 9 of the top 10 majors belong to the Engineering category, the bottom 10 majors are considerably more varied. 
 
 <br>
+<p style="color:red">Fix formatting for below graph. Rename to income distribution/density distribution?</p>
 ```{r}
 combined = gradData
 median.df = data.frame(Major = combined$Major, Major_category=strtrim(combined$Major_category, 45), 
