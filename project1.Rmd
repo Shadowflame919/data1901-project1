@@ -1,6 +1,6 @@
 ---
 title: "DATA1901 Project 1"
-author: "490378115, 490422474, 490424010"
+author: "Aitchison 490378115, Braham 490422474, Hempstead 490424010"
 subtitle: "The Influence of US College Majors"
 date: "University of Sydney | Semester 1 2019 | Lab Session Monday 9am | Carslaw LS 353"
 output: 
@@ -32,9 +32,17 @@ if (!require(plotly)) {
 
 # Executive Summary
 
-*Something catchy!* What the executive wants to see - something that interests them. 
-It is important to note that this is an observational study - only association can be inferred, not causation. 
-Therefore, an important distinction must be made in that the observational nature of this data cannot imply that majoring in Engineering will *cause* one to have a larger income, rather, it can only imply the association between the two.
+*Education. Work. Money*: three words almost guaranteed to be at the forefront of a student's mind as they contemplate their future upon leaving high school. With more and more opportunities for anyone to pursue almost any degree in any field, the inevitable question of *"Which major should I take?:"* is becoming a harder and harder choice for students across the world. <br><br>
+In this research project, data from over 6.7 million college graduates in the USA has been analysed to examine key questions regarding:
+
+* Which college major should a student take to receive the highest income?
+* Which college major should a student pursue to receive the greatest prospects of employment?
+* How do these "rankings" align with the popularity of these courses?
+
+Data shows that Engineering majors often see the highest levels of income, followed by other major categories such as Business and Law. In particular, Petroleum Engineering stands over the rest of the majors with a median income of USD\$110,000, compared to a median of \$36,000. <br> <br>
+Further, UNEMPLOYMENT. <br><br>
+Additionally, POPULARITY. 
+
 <br>
 <br>
 
@@ -48,10 +56,10 @@ gradData = read.csv("data/recent-grads.csv")
 
 ### Source
 
-The data was collected from the American Community Survey 2010 - 2012 Public Use Microdata Sample Files (PUMS) at the [USA Census Website](https://www.census.gov/programs-surveys/acs/data/pums.html). It was initially wrangled by American media company [FiveThirtyEight](https://github.com/fivethirtyeight/data/tree/master/college-majors) (a part of ABC News Internet Ventures). The code used to wrangle the data can be viewed [here](https://github.com/fivethirtyeight/data/blob/master/college-majors/college-majors-rscript.R). 
+The data was collected from the American Community Survey 2010 - 2012 Public Use Microdata Sample Files (PUMS) at the [USA Census Website](https://www.census.gov/programs-surveys/acs/data/pums.html). It was initially wrangled by American media company [FiveThirtyEight](#fivethirty) (a part of ABC News Internet Ventures). The code used to wrangle the data can be viewed [here](https://github.com/fivethirtyeight/data/blob/master/college-majors/college-majors-rscript.R). 
 
 ### Stakeholders
-According to [their website](https://www.census.gov/programs-surveys/acs/technical-documentation/pums.html), the Census Bureau produces the PUMS as an inexpensive and accessible datasource for students, social scientists, and marketing analysists. The media company *FiveThirtyEight* sorted this data and created the dataset for use in their article [The Economic Guide to Picking a College Major](https://www.census.gov/programs-surveys/acs/technical-documentation/pums.html), aimed at educating students on how to best choose their own college majors. <br> <br>
+According to [their website](#census), the Census Bureau produces the PUMS as an inexpensive and accessible datasource for students, social scientists, and marketing analysists. The media company *FiveThirtyEight* sorted this data and created the dataset for use in their article [The Economic Guide to Picking a College Major](#economicguide), aimed at educating students on how to best choose their own college majors. <br> <br>
 While the Census Bureau is a government organisation and therefore can be assumed to be unbiased, FiveThirtyEight's article was commercially motivated, as the website runs advertisements. However, FiveThirtyEight's interpretation of the data was quite transparent, given that they provided the code and made minimal changes to the actual content of the data. The data can therefore be considered unbiased and valid. 
 
 ### Data Dictionary
@@ -62,35 +70,37 @@ str(gradData)
 
 This data consists of 20 variables (excluding "Rank" which orders the subjects by Median income), however, only xx variables are relevant for the study:
 
-#### Major_code {-}
+#### Data Classifications {-.tabset}
+
+##### Major_code {-}
 A unique code for each major, given by the [source](https://www.census.gov/programs-surveys/acs/data/pums.html). <br>
 *Type*: Integer 
 <br>
 *Assessment*: Although it is a number, a factor classification would be more suitable as the codes are considered nominal (no order). 
 
 
-#### Major {-}
+##### Major {-}
 The major's name.
 <br>
 *Type*: Factor 
 <br>
 *Assessment*: Either a character or factor classification would be suitable. 
 
-#### Total, Men, Women {-}
+##### Total, Men, Women {-}
 Amount of total people, men, and women respectively with that major in the sample for 2010-2012.
 <br>
 *Type*: Integer 
 <br>
 *Assessment*: Suitable. 
 
-#### Major_category {-}
+##### Major_category {-}
 General category for that major (e.g. "Engineering").
 <br>
 *Type*: Factor 
 <br>
 *Assessment*: Suitable - allows for easy classification and plotting.
 
-#### ShareWomen {-}
+##### ShareWomen {-}
 Women as a percentage of Total.
 <br>
 *Type*: Number 
@@ -98,49 +108,49 @@ Women as a percentage of Total.
 *Assessment*: Suitable, since it is provided as a decimal (multiply by 100 if plotting percentages). 
 
 
-#### Sample_size {-}
+##### Sample_size {-}
 Sample size for calculating income quartiles.
 <br>
 *Type*: Integer 
 <br>
 *Assessment*: Suitable. 
 
-#### Employed, Full_time, Part_time {-}
+##### Employed, Full_time, Part_time {-}
 Number of people employed, employed 35 hours or more per week, and employed 35 hours or less respectively.
 <br>
 *Type*: Integer 
 <br>
 *Assessment*: Suitable. 
 
-#### Full_time_year_round {-}
+##### Full_time_year_round {-}
 Number of people employed for at least 50 weeks per year and over 35 hours hours per week.
 <br>
 *Type*: Integer 
 <br>
 *Assessment*: Suitable. 
 
-#### Unemployed {-}
+##### Unemployed {-}
 Number of people considered unemployed by census data.
 <br>
 *Type*: Integer 
 <br>
 *Assessment*: Suitable. 
 
-#### Unemployment_rate {-}
+##### Unemployment_rate {-}
 The percentage of people unemployed over (unemployed + employed).
 <br>
 *Type*: Number 
 <br>
 *Assessment*: Suitable. 
 
-#### Median, P25th, P75th {-}
+##### Median, P25th, P75th {-}
 Median, 25th percentile, and 75th percentile earnings respectively for full-time, year-round workers (in USD).
 <br>
 *Type*: Integer 
 <br>
 *Assessment*: Suitable - although income is continuous, it can be considered discrete without significantly impacting the data. 
 
-#### College_jobs, Non_college_jobs, Low_wage_jobs {-}
+##### College_jobs, Non_college_jobs, Low_wage_jobs {-}
 Number of people with a job requiring a college degree, not requiring a college degree, and in a low-wage service job respectively.
 <br>
 *Type*: Integer 
@@ -148,22 +158,26 @@ Number of people with a job requiring a college degree, not requiring a college 
 *Assessment*: Suitable. 
 
 
+### Domain Knowledge
+
+In 2012, the median personal income for the US was [\$28,213](#medi), with unemployment rates at [8.1% for 2012](#unemp). <br><br>
+
+Recently, a research article has shown that "since the [GFC] downturn college students have turned away from the humanities and towards job-oriented degrees" [(Kopf, 2018)](#kopf), with the share of college students graduating with a degree in history dropping from 2% 2007 to 1% 2017 [(Kopf, 2018)](#kopf). This seems to reflect "a new set of student priorities, which are being formed even before they see the inside of a college classroom... Students [are] fleeing humanities and related fields specifically because they think they have poor job prospects." [(Schmidt, 2018)](#schmidt).<br><br> 
+
 ### Data Assessment
 
 **Possible Issues**: <br>
 
  * The data consists of pre-summarised information, meaning that each subject (major) is a set of medians, percentages, etc. Therefore, care needs to be made in plotting and drawing conclusions. 
  * The data is categorised as an *observational study*, lacking in a control group and randomised allocation between majors. Therefore, any conclusions drawn must be treated as associativity rather than causality. 
- * Income has not been adjusted for inflation, however, this is not a major issue considering we are concerned with the relative comparisons. 
- * Data has been pre-filtered to only include subjects below the age of 28, and therefore can be considered a sample, not a population. However, this can also be a positive in that it is more relevant to current university students.
+ * The data is 7 years old, and income has not been adjusted for inflation. However, this is not a major issue considering relative comparisons are being made. 
+ * The data has been pre-filtered to only include subjects below the age of 28, and therefore can be considered a sample, not a population. However, this can also be a positive in that it is more relevant to current university students.
  
 <br>
 **Validity**: <br>
 This data, taking into account the issues above and their solutions, can be considered valid.
 
-### Domain Knowledge
 
-xxxxxx
 
 ## New questions:
 Q1: Which college majors give the highest incomes?
@@ -363,10 +377,21 @@ Summary:
 
 # References
 
-Style: APA 
-Major categories were sourced from ["What's It Worth?: The Economic Value of College Majors." Georgetown University Center on Education and the Workforce, 2011](http://cew.georgetown.edu/whatsitworth). 
+<a name="unemp"></a> 
+Bureau of Labor Statistics. (2019). *Labor Force Statistics from the Current Population Survey, 2012 (LNU04000000)* [Data set]. Retrieved from [http://data.bls.gov](http://data.bls.gov). <br> <br>
+<a name="economicguide"></a>
+Casselman, B. (2014, September 12). The Economic Guide to Picking a College Major. *FiveThirtyEight*. Retrieved from [https://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/](https://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/). <br><br>
+<a name="fivethirty"></a>
+FiveThirtyEight. (2014). *College Majors 2010-2012  (Recent Grads)* [Data set]. Retrieved from Github; [https://github.com/fivethirtyeight/data/tree/master/college-majors](https://github.com/fivethirtyeight/data/tree/master/college-majors). <br> <br>
+<a name="kopf"></a>
+Kopf, D. (2018, August 29). The 2008 financial crisis completely changed what majors students choose. *Quartz*. Retrieved from [https://qz.com/1370922/the-2008-financial-crisis-completely-changed-what-majors-students-choose/](https://qz.com/1370922/the-2008-financial-crisis-completely-changed-what-majors-students-choose/). <br><br>
+<a name="schmidt"></a>
+Schmidt, B. (2018, August 3). The Humanities Are in Crisis. *The Atlantic*. Retrieved from [https://www.theatlantic.com/ideas/archive/2018/08/the-humanities-face-a-crisisof-confidence/567565/](https://www.theatlantic.com/ideas/archive/2018/08/the-humanities-face-a-crisisof-confidence/567565/). <br><br>
+<a name="census"></a>
+US. Bureau of the Census. (2018). *Public Use Microdata Samples (PUMS) Documentation*. Retrieved from [https://www.census.gov/programs-surveys/acs/technical-documentation/pums.html](https://www.census.gov/programs-surveys/acs/technical-documentation/pums.html). <br><br>
+<a name="medi"></a> 
+U.S. Bureau of the Census. (2017). *Real Median Personal Income in the United States, 2012 (MEPAINUSA672N)* [Data set]. Retrieved from FRED, Federal Reserve Bank of St. Louis; [https://fred.stlouisfed.org/series/MEPAINUSA672N](https://fred.stlouisfed.org/series/MEPAINUSA672N). <br><br>
 
-<br>
 
 ```{r}
 sessionInfo()
