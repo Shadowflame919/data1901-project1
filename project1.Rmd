@@ -312,7 +312,6 @@ plot_ly(gradData.combined.df, y=~Income/1000, x=~reorder(Major, -score$Median), 
 Looking at individual majors, there are initially too many data-points to make sense of the information. Instead, ordering the data by median income, the subjects can be limited to only the top and bottom 10 majors (note that this plotted data takes into account median, 25th percentile, and 75th percentile). While 9 of the top 10 majors belong to the Engineering category, the bottom 10 majors are considerably more varied. 
 
 <br>
-<p style="color:red">Fix formatting for below graph. Rename to income distribution/density distribution?</p>
 ```{r}
 combined = gradData
 median.df = data.frame(Major = combined$Major, Major_category=strtrim(combined$Major_category, 45), 
@@ -323,7 +322,7 @@ p75.df = data.frame(Major = combined$Major, Major_category=strtrim(combined$Majo
                        Income = combined$P75th)
 combined.df = rbind(median.df, p25.df, p75.df)
 ggplotly(ggplot(combined.df, aes(x=Income/1000, fill=Major_category)) + geom_density(alpha=0.2) + facet_wrap(~Major_category) +
-           xlab("Income (USD$1000)") + ylab("Density") + labs(title="Income Density per Major Category") + theme_minimal() + theme(legend.position="none", strip.text.x = element_text(size = 7)))
+           xlab("Income (USD$1000)") + ylab("Density") + labs(title="Income Distribution per Major Category") + theme_minimal() + theme(legend.position="none", strip.text.x = element_text(size = 7)))
 
 combined = rbind(gradData[gradData$Major_category=="Engineering",],
                  gradData[gradData$Major_category=="Education",], gradData[gradData$Major_category=="Business",])
@@ -335,7 +334,7 @@ p75.df = data.frame(Major = combined$Major, Major_category=combined$Major_catego
                        Income = combined$P75th)
 combined.df = rbind(median.df, p25.df, p75.df)
 ggplotly(ggplot(combined.df, aes(x=Income/1000, fill=Major_category)) + geom_density(alpha=0.2) +
-           xlab("Income (USD$1000)") + ylab("Density") + labs(fill="Major Category", title="Income Density per Major Category (Selection)") + theme_minimal())
+           xlab("Income (USD$1000)") + ylab("Density") + labs(fill="Major Category", title="Income Distribution per Major Category (Selection)") + theme_minimal())
 ```
 
 Examining the density estimation of a selection of major categories, again Engineering appears to have significantly higher incomes compared to other categories. However, the estimation shows that the spread is also significantly larger, with a portion of the income falling within the range of the lowest majors. This is contrasted with Education, where the range is confined to ~$25,000.  
