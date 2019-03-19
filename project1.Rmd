@@ -188,7 +188,6 @@ There are three variables to consider - the 25th percentile, median, and 75th pe
 ```{r}
 summary(gradData$Median)
 ```
-<p style="color:red">STATE MEANING OF RED LINE?</p>
 ```{r warning=FALSE}
 hline <- function(y = 0) {
   list(
@@ -356,9 +355,23 @@ The data shows that Engineering incomes can far exceed those in other categories
 
 ## Research Question 2
 > Which college major should a student pursue to see the greatest prospects for employment? 
+> Which college majors prove most useful in achieving employment?
+
+Look at variables related to employment (both employment chances, and the need for a college degree in relation to employment)
+
+Compare unemployment rates between majors and major categories
+Compare worth of college degree in achieving employment
+
+The fact that this data is for <28 changes things lots. It's bascially entry level income and does not reflect increasing income over time.
+
 
 <br>
 Insert text and analysis. 
+
+```{r warning=FALSE}
+
+```
+
 
 ```{r}
 percentCollege = gradData$College_jobs/(gradData$College_jobs+gradData$Non_college_jobs+gradData$Low_wage_jobs)
@@ -377,6 +390,17 @@ ggplot(gradData, aes(x=factor(Major_category), y=percentCollege)) +
 > Looking at the results from Q1 and Q2, how do these "rankings" align with the popularity of these courses? 
 
 (based on total people = employed + unemployed)
+
+
+Things:
+Compare popularity data with results from analysis of median income (Q1) and employment (Q2)
+Does the number of people doing these majors align with the these two metrics?
+Are there any outlier majors? i.e. Are some majors which have good/bad income & employablity low/high in popularity?
+This could be determined though some plots, as employability/income increases so should popularity right?
+Although probably not because thats how supply/demand works lol
+Suggest some good/bad majors based on this data
+
+
 
 Insert text and analysis. 
 
