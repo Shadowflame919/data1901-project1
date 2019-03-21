@@ -388,69 +388,45 @@ ggplot(gradData, aes(x=factor(Major_category), y=percentCollege)) +
 
 > Looking at the results from Q1 and Q2, how do these "rankings" align with the popularity of these courses? 
 
-(based on total people = employed + unemployed)
+From Questions 1 and 2, the majors falling into the engineering category have consistently ranked amongst the highest in terms of income. By examining the popularity of courses, we should be able to tell a better story about the reasons for this apparent incongruity.
 
-
-Things:
-Compare popularity data with results from analysis of median income (Q1) and employment (Q2)
-Does the number of people doing these majors align with the these two metrics?
-Are there any outlier majors? i.e. Are some majors which have good/bad income & employablity low/high in popularity?
-This could be determined though some plots, as employability/income increases so should popularity right?
-Although probably not because thats how supply/demand works lol
-Suggest some good/bad majors based on this data
-
-```{r}
+```{r message=FALSE}
 gradData = read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/recent-grads.csv")
 library(ggplot2)
 library(plotly)
 
-# Exclude Food Science, as it has missing data.
+# Exclude Food Science and Military Technologies, as they have missing data.
+# total_grads = sum(gradTotalData$Total)
+# Order our data by the total number of graduates
 gradTotalData = gradData[!(gradData$Major=="FOOD SCIENCE") & !(gradData$Major=="MILITARY TECHNOLOGIES") ,]
 
-# Order our data by the total number of graduates
 gradTotalData = gradTotalData[order(gradTotalData$Total),]
 
-total_grads = sum(gradTotalData$Total)
+bottom_ten_by_total = head(gradTotalData, 10)
+top_ten_by_total = tail(gradTotalData, 10)
 
-bottom_ten_majors_by_total = data.frame("Major" = gradTotalData$Major[1:10])
-top_ten_majors_by_total = data.frame("Major" = gradTotalData$Major[(length(gradTotalData$Major) - 9):length(gradTotalData$Major)])
-bottom_ten_totals = data.frame("Total" = gradTotalData$Total[1:10])
-top_ten_totals = data.frame("Total" =  gradTotalData$Total[(length(gradTotalData$Median) - 9):length(gradTotalData$Median)])
-bottom_ten_incomes = data.frame("Median" = gradTotalData$Median[1:10])
-top_ten_incomes = data.frame("Median" =  gradTotalData$Median[(length(gradTotalData$Median) - 9):length(gradTotalData$Median)])
-bottom_ten_employed = data.frame("Employed" = gradTotalData$Employed[1:10])
-top_ten_employed = data.frame("Employed" =  gradTotalData$Employed[(length(gradTotalData$Median) - 9):length(gradTotalData$Median)])
+gradTotal_topbottom = rbind(top_ten_by_total, bottom_ten_by_total)
 
 
-combined_employed = rbind(top_ten_employed, bottom_ten_employed, stringsAsFactors=FALSE)
-combined_incomes_by_total = rbind(top_ten_incomes, bottom_ten_incomes, stringsAsFactors=FALSE)
-combined_majors_by_total = rbind(top_ten_majors_by_total, bottom_ten_majors_by_total, stringsAsFactors=FALSE)
-combined_totals = rbind(top_ten_totals, bottom_ten_totals, stringsAsFactors=FALSE)
-gradMajorTotalPairs = data.frame(combined_majors_by_total, combined_totals, combined_incomes_by_total, combined_employed)
-
-plotAllMedianVsPop = ggplot(gradTotalData, aes(x=Median, y=Total))
-plotAllMedianVsPop + geom_point()
-
-plotTopMedianVsPop = ggplot(gradMajorTotalPairs, aes(x=Median, y=Total, color=Major))
-plotTopMedianVsPop + geom_point()
-
-plotAllEmployedVsPop = ggplot(gradTotalData, aes(x=Employed/Total, y=Total))
-plotAllEmployedVsPop + geom_point()
-
-plotTopEmployedVsPop = ggplot(gradMajorTotalPairs, aes(x=Employed/Total, y=Total, color=Major))
-plotTopEmployedVsPop + geom_point()
-
-
-
-
-
-
-#PROBLEMS:
-#"Graduates" isn't necessarily a metric of popularity. 
-# i.e. 'Psychology' could be considered an easier course and therefore recieve more graduates
+ggplotly(ggplot(gradTotalData, aes(x=Median, fill=Major_category)) + geom_histogram() + theme(legend.position = "none") +
+           xlab("Median Income") + ylab("Density") + labs(title="Popularity vs Median Income"))
 ```
-
-Insert text and analysis. 
+Initially, by looking at the distribution of Median income across major categories, we can observe that more specialised fields (lower counts) tend to generate a higher income. By examining the categories (differentiated by colour, and named on hover), we can see that engineering has a higher frequency in higher median income areas.
+```{r message=FALSE}
+ggplotly(ggplot(gradTotalData, aes(x=Employed/Total, fill=Major_category)) + geom_histogram() + theme(legend.position = "none") +
+           xlab("Employment Rate") + ylab("Density") + labs(title="Popularity vs Employment Rate"))
+```
+A histogram of employment rate shows a fairly normal distribution of major categories. Interestingly, we see that engineering holds not only the highest median income major, but also the major with the highest employment rate of graduates. Unlike income, however, employment rates of engineering majors are observed have much more of a spread. As show below, the employment rate of engineering majors at worst is 2.75 deviations from the mean.
+```{r}
+employmentMean = mean((gradTotalData$Employed/gradTotalData$Total))
+employmentSd = sd((gradTotalData$Employed/gradTotalData$Total))
+# Get all employment rates of engineering, then sort them in increasing order, and take the first element to get the lowest.
+lowestEmployment = sort((gradTotalData$Employed/gradTotalData$Total)[gradTotalData$Major_category=="Engineering"], decreasing=FALSE)[1]
+```
+```{r message=TRUE}
+distance = ((employmentMean - lowestEmployment)/employmentSd)
+print(distance)
+```
 
 Summary: 
 
