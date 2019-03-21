@@ -1,33 +1,36 @@
 gradData = read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/recent-grads.csv")
 library(ggplot2)
+library(plotly)
 
 # Exclude Food Science, as it has missing data.
-gradTotalData = gradData[!(gradData$Major=="FOOD SCIENCE"),]
-
+# total_grads = sum(gradTotalData$Total)
 # Order our data by the total number of graduates
+gradTotalData = gradData[!(gradData$Major=="FOOD SCIENCE") & !(gradData$Major=="MILITARY TECHNOLOGIES") ,]
+
 gradTotalData = gradTotalData[order(gradTotalData$Total),]
 
-total_grads = sum(gradTotalData$Total)
+bottom_ten_by_total = head(gradTotalData, 10)
+top_ten_by_total = tail(gradTotalData, 10)
 
-bottom_ten_majors_by_total = data.frame("Major" = gradTotalData$Major[1:10])
-
-
-top_ten_majors_by_total = data.frame("Major" = gradTotalData$Major[(length(gradTotalData$Major) - 9):length(gradTotalData$Major)])
-
-combined_majors_by_total = rbind(top_ten_majors_by_total, bottom_ten_majors_by_total, by="Major")
-
-major_popularity_data = data.frame(top_ten_majors_by_total, bottom_ten_majors_by_total)
-#plot = ggplot(gradTotalData, aes(x=Median, y=Unemployment_rate, color=Major))
-#plot + geom_point()
+gradTotal_topbottom = rbind(top_ten_by_total, bottom_ten_by_total)
 
 
 
 
+ggplotly(ggplot(gradTotal_topbottom, aes(x=Median, fill=Major, y=Total)) + geom_point() + theme(legend.position = "none") +
+           xlab("Median Income") + ylab("Popularity") + labs(title="Popularity vs Median Income"))
 
 
+ggplotly(ggplot(gradTotalData, aes(x=Employed/Total, fill=Major_category)) + geom_histogram(bins = 15) + theme(legend.position = "none") +
+           xlab("Employment Rate") + ylab("Density") + labs(title="Popularity vs Median Income"))
 
 
+ggplotly(ggplot(gradTotalData, aes(x=Median, fill=Major_category)) + geom_histogram(bins = 15) + theme(legend.position = "none") +
+           xlab("Median Income") + ylab("Density") + labs(title="Popularity vs Median Income"))
 
-#PROBLEMS:
-#"Graduates" isn't necessarily a metric of popularity. 
-# i.e. 'Psychology' could be considered an easier course and therefore recieve more graduates
+
+employmentMean = mean((gradTotalData$Employed/gradTotalData$Total))
+employmentSd = sd((gradTotalData$Employed/gradTotalData$Total))
+# Get all employment rates of engineering, then sort them in increasing order, and take the first element to get the lowest.
+lowestEmployment = sort((gradTotalData$Employed/gradTotalData$Total)[gradTotalData$Major_category=="Engineering"], decreasing=FALSE)[1]
+distance = ((employmentMean - lowestEmployment)/employmentSd)
