@@ -416,16 +416,14 @@ Initially, by looking at the distribution of Median income across major categori
 ggplotly(ggplot(gradTotalData, aes(x=Employed/Total, fill=Major_category)) + geom_histogram() + theme(legend.position = "none") +
            xlab("Employment Rate") + ylab("Density") + labs(title="Popularity vs Employment Rate"))
 ```
-A histogram of employment rate shows a fairly normal distribution of major categories. Interestingly, we see that engineering holds not only the highest median income major, but also the major with the highest employment rate of graduates. Unlike income, however, employment rates of engineering majors are observed have much more of a spread. As show below, the employment rate of engineering majors at worst is 2.75 deviations from the mean.
+A histogram of employment rate shows a fairly normal distribution of major categories. Interestingly, we see that engineering holds not only the highest median income major, but also the major with the highest employment rate of graduates. Unlike income, however, employment rates of engineering majors are observed to have much more of a spread. As show below, the employment rate of engineering majors at worst is 2.75 deviations from the mean.
 ```{r}
 employmentMean = mean((gradTotalData$Employed/gradTotalData$Total))
 employmentSd = sd((gradTotalData$Employed/gradTotalData$Total))
 # Get all employment rates of engineering, then sort them in increasing order, and take the first element to get the lowest.
 lowestEmployment = sort((gradTotalData$Employed/gradTotalData$Total)[gradTotalData$Major_category=="Engineering"], decreasing=FALSE)[1]
-```
-```{r message=TRUE}
 distance = ((employmentMean - lowestEmployment)/employmentSd)
-print(distance)
+message("Z Score for Engineering Unemployment: ", distance)
 ```
 
 Summary: 
