@@ -406,10 +406,6 @@ ggplot(gradData, aes(x=factor(Major_category), y=percentCollege)) +
 From Questions 1 and 2, the majors falling into the engineering category have consistently ranked amongst the highest in terms of income. By examining the popularity of courses, a stronger conclusion should be able to be made regarding the reasons for this apparent incongruity.
 
 ```{r message=FALSE}
-gradData = read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/recent-grads.csv")
-library(ggplot2)
-library(plotly)
-
 # Exclude Food Science and Military Technologies, as they have missing data.
 # total_grads = sum(gradTotalData$Total)
 # Order our data by the total number of graduates
@@ -438,7 +434,7 @@ employmentSd = sd((gradTotalData$Employed/gradTotalData$Total))
 # Get all employment rates of engineering, then sort them in increasing order, and take the first element to get the lowest.
 lowestEmployment = sort((gradTotalData$Employed/gradTotalData$Total)[gradTotalData$Major_category=="Engineering"], decreasing=FALSE)[1]
 distance = ((employmentMean - lowestEmployment)/employmentSd)
-message("Z Score for Engineering Unemployment: ", distance)
+message("Lowest Z Score for Engineering Unemployment: ", distance)
 ```
 
 Summary: 
