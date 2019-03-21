@@ -388,7 +388,7 @@ ggplot(gradData, aes(x=factor(Major_category), y=percentCollege)) +
 
 > Looking at the results from Q1 and Q2, how do these "rankings" align with the popularity of these courses? 
 
-From Questions 1 and 2, the majors falling into the engineering category have consistently ranked amongst the highest in terms of income. By examining the popularity of courses, we should be able to tell a better story about the reasons for this apparent incongruity.
+From Questions 1 and 2, the majors falling into the engineering category have consistently ranked amongst the highest in terms of income. By examining the popularity of courses, a stronger conclusion should be able to be made regarding the reasons for this apparent incongruity.
 
 ```{r message=FALSE}
 gradData = read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/recent-grads.csv")
@@ -411,12 +411,12 @@ gradTotal_topbottom = rbind(top_ten_by_total, bottom_ten_by_total)
 ggplotly(ggplot(gradTotalData, aes(x=Median, fill=Major_category)) + geom_histogram() + theme(legend.position = "none") +
            xlab("Median Income") + ylab("Density") + labs(title="Popularity vs Median Income"))
 ```
-Initially, by looking at the distribution of Median income across major categories, we can observe that more specialised fields (lower counts) tend to generate a higher income. By examining the categories (differentiated by colour, and named on hover), we can see that engineering has a higher frequency in higher median income areas.
+Initially, by looking at the distribution of Median income across major categories, it's apparent that more specialised fields (lower counts) tend to generate a higher income. By examining the categories (differentiated by colour, and named on hover), the data shows that engineering has a higher frequency in higher median income areas.
 ```{r message=FALSE}
 ggplotly(ggplot(gradTotalData, aes(x=Employed/Total, fill=Major_category)) + geom_histogram() + theme(legend.position = "none") +
            xlab("Employment Rate") + ylab("Density") + labs(title="Popularity vs Employment Rate"))
 ```
-A histogram of employment rate shows a fairly normal distribution of major categories. Interestingly, we see that engineering holds not only the highest median income major, but also the major with the highest employment rate of graduates. Unlike income, however, employment rates of engineering majors are observed to have much more of a spread. As show below, the employment rate of engineering majors at worst is 2.75 deviations from the mean.
+A histogram of employment rate shows a fairly normal distribution of major categories. Interestingly, engineering holds not only the highest median income major, but also the major with the highest employment rate of graduates. Unlike income, however, employment rates of engineering majors are observed to have much more of a spread. As show below, the employment rate of engineering majors at worst is 2.75 deviations from the mean.
 ```{r}
 employmentMean = mean((gradTotalData$Employed/gradTotalData$Total))
 employmentSd = sd((gradTotalData$Employed/gradTotalData$Total))
