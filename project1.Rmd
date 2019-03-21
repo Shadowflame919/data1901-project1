@@ -41,7 +41,8 @@ In this research project, data from over 6.7 million college graduates in the US
 
 Data shows that Engineering majors often see the highest levels of income, followed by other major categories such as Business and Law. In particular, Petroleum Engineering stands over the rest of the majors with a median income of USD\$110,000, compared to a median of \$36,000. <br> <br>
 Further, UNEMPLOYMENT. <br><br>
-Additionally, POPULARITY. 
+Additionally, POPULARITY. <br><br>
+However, POINT. 
 
 <br>
 <br>
@@ -419,13 +420,16 @@ top_ten_by_total = tail(gradTotalData, 10)
 gradTotal_topbottom = rbind(top_ten_by_total, bottom_ten_by_total)
 
 
-ggplotly(ggplot(gradTotalData, aes(x=Median, fill=Major_category)) + geom_histogram() + theme(legend.position = "none") +
-           xlab("Median Income") + ylab("Density") + labs(title="Popularity vs Median Income"))
+ggplotly(ggplot(gradTotalData, aes(x=Median/1000, fill=Major_category)) + geom_histogram() + 
+           theme(legend.position = "none") +
+           xlab("Median Income (USD$1000)") + ylab("Count") + 
+           labs(title="Popularity vs Median Income"))
 ```
 Initially, by looking at the distribution of Median income across major categories, it's apparent that more specialised fields (lower counts) tend to generate a higher income. By examining the categories (differentiated by colour, and named on hover), the data shows that engineering has a higher frequency in higher median income areas.
 ```{r message=FALSE}
-ggplotly(ggplot(gradTotalData, aes(x=Employed/Total, fill=Major_category)) + geom_histogram() + theme(legend.position = "none") +
-           xlab("Employment Rate") + ylab("Density") + labs(title="Popularity vs Employment Rate"))
+ggplotly(ggplot(gradTotalData, aes(x=100*Employed/Total, fill=Major_category)) + geom_histogram() + 
+           theme(legend.position = "none") +
+           xlab("Employment Rate (%)") + ylab("Count") + labs(title="Popularity vs Employment Rate"))
 ```
 A histogram of employment rate shows a fairly normal distribution of major categories. Interestingly, engineering holds not only the highest median income major, but also the major with the highest employment rate of graduates. Unlike income, however, employment rates of engineering majors are observed to have much more of a spread. As show below, the employment rate of engineering majors at worst is 2.75 deviations from the mean.
 ```{r}
@@ -434,10 +438,11 @@ employmentSd = sd((gradTotalData$Employed/gradTotalData$Total))
 # Get all employment rates of engineering, then sort them in increasing order, and take the first element to get the lowest.
 lowestEmployment = sort((gradTotalData$Employed/gradTotalData$Total)[gradTotalData$Major_category=="Engineering"], decreasing=FALSE)[1]
 distance = ((employmentMean - lowestEmployment)/employmentSd)
-message("Lowest Z Score for Engineering Unemployment: ", distance)
+message("Lowest Z Score for Engineering Employment: ", distance)
 ```
 
-Summary: 
+**Summary**: <br>
+
 
 <br>
 
