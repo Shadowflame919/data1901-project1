@@ -197,7 +197,7 @@ hline <- function(y = 0) {
     xref = "paper",
     y0 = y, 
     y1 = y, 
-    line = list(color = "red", width=1)
+    line = list(color = "red", width=0.5)
   )
 }
 plot_ly(gradData, y=~Median/1000, color=~Major_category, type="box") %>% 
@@ -353,36 +353,101 @@ The data shows that Engineering incomes can far exceed those in other categories
 <br><br>
 
 ## Research Question 2
-> Which college major should a student pursue to see the greatest prospects for employment? 
 > Which college majors prove most useful in achieving employment?
 
-Look at variables related to employment (both employment chances, and the need for a college degree in relation to employment)
-
-Compare unemployment rates between majors and major categories
-Compare worth of college degree in achieving employment
-
-The fact that this data is for <28 changes things lots. It's bascially entry level income and does not reflect increasing income over time.
-
+There are various ways to measure the value of a particular college major in achieving employment, such as comparing the number of jobs which require the degree, compared to those that don't.
+Another, more direct measure of a majors ability to gain employment is to understand the amount of people left unemployed after they have received their major, i.e. the unemployment rate. 
 
 <br>
-Insert text and analysis. 
+
+```{r warning=FALSE}
+## Part 1: Unemployment Rate between major categories
+
+# Clean data of majors which are missing unemployment data
+gradData = gradData[!(gradData$Major=="MILITARY TECHNOLOGIES"),]
+
+# Define a function to return a nice looking horizontal line
+hline = function(y) {
+  list(
+    type = "line", 
+    x0 = 0, 
+    x1 = 1, 
+    xref = "paper",
+    y0 = y, 
+    y1 = y, 
+    line = list(color = "red", width=0.5)
+  )
+}
+
+# Calculate median unemployment to display on graph
+medianUnemployment = 100*median(gradData$Unemployment_rate)
+
+# Plot unemployment rate as boxplot
+plot_ly(
+  gradData, 
+  y=~Unemployment_rate*100, 
+  color=~Major_category, 
+  type="box"
+) %>% layout(    
+  yaxis = list(title = "Unemploment Rate (%)"),
+  xaxis = list(showticklabels = FALSE),
+  title = "Unemployment Rate per Major Category",
+  shapes = hline(medianUnemployment)
+)
+```
+
+Plotting the unemployment rate per major category reveals strong variation between the fields, both in relative unemployment rates, and spread within the category. 
+This large spread reveals the importance of employment as a factor, as naively choosing engineering or law based on income may place you at risk of some of the highest unemployment rates.
 
 ```{r warning=FALSE}
 
+## Part 2: Degree requirement betwen major categories
+# Plot % of jobs requiring degree as boxplot
+
+# Create a new field which stores the percentage of requiring the college job
+gradData["Job_ratio"] = 100*gradData$College_jobs / (gradData$Non_college_jobs + gradData$College_jobs)
+
+plot_ly(
+  gradData,
+  y = ~Job_ratio,
+  color=~Major_category,
+  type = "box"
+) %>% layout(
+  title = "Requirement of College Degree per Major Category",
+  yaxis = list(title = "Chance of Requiring Degree (%)"),
+  xaxis = list(showticklabels = FALSE),
+  shapes = hline(median(gradData$Job_ratio))
+)
 ```
+This second metric for unemployment could be viewed as essentially rating the 'usefulness' of a degree. 
+Even though the plot is attempting to answer the same question, categories like IACS seem to reveal conflicting results.
 
 
-```{r}
-percentCollege = gradData$College_jobs/(gradData$College_jobs+gradData$Non_college_jobs+gradData$Low_wage_jobs)
-ggplot(gradData, aes(x=factor(Major_category), y=percentCollege)) + 
-  geom_boxplot(aes(fill = factor(Major_category))) +
-  theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.ticks.x = element_blank()) +
-  labs(fill = "Major Category", title="Percent College Jobs per Major Category") + 
-  ylab("Percentage of Jobs as College Jobs")
+```{r warning=FALSE}
+## Part 3
+# Plot unemployment rate VS chance of requiring college degree
+plot_ly(
+  gradData, 
+  type='scatter',
+  x=~Job_ratio, 
+  y=~Unemployment_rate * 100,
+  color=~Major_category
+) %>% add_lines(
+  y = ~fitted(lm(gradData$Unemployment_rate*100 ~ gradData$Job_ratio)),
+  line = list(color = '#07A4B5'),
+  name = "Linear Trend Line", showlegend = FALSE
+) %>% layout(
+  title = "Unemployment Rate VS Requirement of Degree",
+  yaxis = list(title = "Unemployment Rate (%)"),
+  xaxis = list(title = "Usefulness of Requiring Degree (%)")
+)
 ```
-<br>How much of this employment is actually in their field / based on the degree (looking at college jobs vs non-college jobs)?
+
+The positive correlation between these two metrics is revealed through a scatter plot of each major comparing unemployment and degree 'usefulness'. The more your degree is required in the field, the less likely you are to be left unemployed. 
 
 <br>
+
+**Summary**: Examining the data with regards to employment reveals Education as a category of possible majors which will ensure you are employed and using your degree to its full potential. However, more importantly, the data reveals that naively considering one metric will not provide you with the full story when selecting your major as evident through the large spreads and conflicting metrics.
 
 ## Research Question 3
 
