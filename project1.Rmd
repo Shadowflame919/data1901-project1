@@ -37,12 +37,12 @@ if (!require(plotly)) {
 In this research project, data from over 6.7 million college graduates in the USA has been analysed to examine key questions regarding:
 
 * Which college major should a student take to receive the highest income?
-* Which college major should a student pursue to receive the greatest prospects of employment?
+* Which college majors prove most beneficial in regards to employment?
 * How do these "rankings" align with the popularity of these courses?
 
 Data shows that Engineering majors often see the highest levels of income, followed by other major categories such as Business and Law. In particular, Petroleum Engineering stands over the rest of the majors with a median income of USD\$110,000, compared to a median of \$36,000. <br> <br>
 
-Further, looking at unemployment shows a trend in ... <br><br>
+It is discovered that two seperate metrics for the same factor, employment, can reveal well-rounded categories like education, yet also produce conflicting results in others fields. This emphasises the importance in considering a range of variables when selecting a major, and not taking any one factor at its face value. <br> <br>
 
 Ultimately, however, the popularity of courses appears not to be inherently linked to their employability prospects or expected incomes. This implies that, whether for better or worse, instead of basing choices on these factors, most students may instead be following influences such as personal preference, external pressure, or availabilities. 
 
@@ -438,7 +438,7 @@ plot_ly(
   line = list(color = '#07A4B5'),
   name = "Trend Line", showlegend = FALSE
 ) %>% layout(
-  title = "Unemployment Rate VS Requirement of Degree",
+  title = "Unemployment Rate VS Usefulness of Degree",
   yaxis = list(title = "Unemployment Rate (%)"),
   xaxis = list(title = "Usefulness of Degree (%)")
 )
