@@ -33,10 +33,11 @@ if (!require(plotly)) {
 # Executive Summary
 
 *Education. Work. Money*: three words almost guaranteed to be at the forefront of a student's mind as they contemplate their future upon leaving highschool. With more and more opportunities for anyone to pursue almost any degree in any field, the inevitable question of *"Which major should I take?"* is becoming a harder and harder choice for students across the world. <br><br>
+
 In this research project, data from over 6.7 million college graduates in the USA has been analysed to examine key questions regarding the expected income, employability prospects, and subsequent popularity of various university majors. <br><br>
 The data shows that Engineering majors often see the highest levels of income, followed by other major categories such as Business and Law. 
-Further, the data also reveals a general trend where fields requiring higher education levels often accompany lower levels of unemployment, while also affirming how a large spread of employment rates can be seen between majors even within the same field.<br><br>
-Ultimately, however, the popularity of courses appears not to be inherently linked to their employability prospects or expected incomes. This implies that, whether for better or worse, instead of basing choices on these factors, most students may instead be following other external influences beyond the scope of this report. 
+Further, the data also reveals a general trend where fields requiring higher education levels often accompany lower levels of unemployment. <br><br>
+Ultimately, however, the popularity of courses appears not to be inherently linked to their employability prospects or expected incomes. Indeed, two seperate metrics for the same factor, employment, can reveal well-rounded categories like education, yet also produce conflicting results in other fields. This implies that, whether for better or worse, instead of basing choices on these factors, most students may instead be following other external influences beyond the scope of this report. 
 
 <br>
 <br>
@@ -430,7 +431,7 @@ plot_ly(
   line = list(color = '#07A4B5'),
   name = "Trend Line", showlegend = FALSE
 ) %>% layout(
-  title = "Unemployment Rate VS Requirement of Degree",
+  title = "Unemployment Rate VS Usefulness of Degree",
   yaxis = list(title = "Unemployment Rate (%)"),
   xaxis = list(title = "Usefulness of Degree (%)")
 )
