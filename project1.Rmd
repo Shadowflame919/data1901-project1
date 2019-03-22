@@ -431,7 +431,8 @@ plot_ly(
   type='scatter',
   x=~Job_ratio, 
   y=~Unemployment_rate * 100,
-  color=~Major_category
+  color=~Major_category,
+  mode='markers'
 ) %>% add_lines(
   y = ~fitted(lm(gradData$Unemployment_rate*100 ~ gradData$Job_ratio)),
   line = list(color = '#07A4B5'),
