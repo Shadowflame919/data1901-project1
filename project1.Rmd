@@ -33,7 +33,7 @@ if (!require(plotly)) {
 # Executive Summary
 
 <!-- need to cut down words --> 
-*Education. Work. Money*: three words almost guaranteed to be at the forefront of a student's mind as they contemplate their future upon leaving highschool. With more and more opportunities for anyone to pursue almost any degree in any field, the inevitable question of *"Which major should I take?:"* is becoming a harder and harder choice for students across the world. <br><br>
+*Education. Work. Money*: three words almost guaranteed to be at the forefront of a student's mind as they contemplate their future upon leaving highschool. With more and more opportunities for anyone to pursue almost any degree in any field, the inevitable question of *"Which major should I take?"* is becoming a harder and harder choice for students across the world. <br><br>
 In this research project, data from over 6.7 million college graduates in the USA has been analysed to examine key questions regarding:
 
 * Which college major should a student take to receive the highest income?
@@ -44,7 +44,7 @@ Data shows that Engineering majors often see the highest levels of income, follo
 
 Further, looking at unemployment shows a trend in ... <br><br>
 
-Ultimately, however, the popularity of courses appears not to be inherently linked to their employability prospects or expected incomes. This implies that, whether for better or worse, instead of basing choices on these factors, most students may instead be following influencers such as personal preference, external pressure, or availabilities. 
+Ultimately, however, the popularity of courses appears not to be inherently linked to their employability prospects or expected incomes. This implies that, whether for better or worse, instead of basing choices on these factors, most students may instead be following influences such as personal preference, external pressure, or availabilities. 
 
 <br>
 <br>
@@ -407,13 +407,13 @@ ggplotly(ggplot(gradTotalData, aes(x=Median/1000, fill=Major_category)) + geom_h
            xlab("Median Income (USD$1000)") + ylab("Count") + 
            labs(title="Popularity vs Median Income"))
 ```
-Initially, by looking at the distribution of Median income across major categories, it's apparent that more specialised fields (lower counts) tend to generate a higher income. By examining the categories (differentiated by colour, and named on hover), the data shows that engineering has a higher frequency in higher median income areas. Despite this, the data still follows a relatively normal distribution. 
+Examining major categories (differentiated by colour, and named on hover), the data shows that engineering has a higher frequency in higher median income areas. Despite this, the data still follows a relatively normal distribution.
 ```{r message=FALSE}
 ggplotly(ggplot(gradTotalData, aes(x=100*Employed/Total, fill=Major_category)) + geom_histogram() + 
            theme(legend.position = "none") +
            xlab("Employment Rate (%)") + ylab("Count") + labs(title="Popularity vs Employment Rate"))
 ```
-A histogram of employment rate also shows a fairly normal distribution of popularity. <!-- I don't think this next part is really relevant to the question? --> Interestingly, engineering holds not only the highest median income major, but also the major with the highest employment rate of graduates. However, employment rates of engineering majors are also observed to have much more of a spread. As show below, the employment rate of engineering majors at worst is 2.75 deviations from the mean.
+Engineering holds not only the highest median income major, but also the major with the highest employment rate of graduates. However, employment rates of engineering majors are also observed to have much more of a spread. As shown below, the employment rate of engineering majors at worst is 2.75 deviations from the mean.
 ```{r}
 employmentMean = mean((gradTotalData$Employed/gradTotalData$Total))
 employmentSd = sd((gradTotalData$Employed/gradTotalData$Total))
@@ -422,10 +422,15 @@ lowestEmployment = sort((gradTotalData$Employed/gradTotalData$Total)[gradTotalDa
 distance = ((employmentMean - lowestEmployment)/employmentSd)
 message("Lowest Z Score for Engineering Employment: ", distance)
 ```
-
+```{r}
+ggplotly(ggplot(gradTotal_topbottom, aes(x=Median/1000, fill=Major, y=Total)) + geom_point() + 
+           theme(legend.position = "none") +
+           xlab("Median Income (USD $1000)") + ylab("Total Grads") + labs(title="Total Grads vs Median Income"))
+```
+By examining the top and bottom ten majors as a scatter plot of popularity against income, the normal distribution is of income is emphasised, suggesting that students may not be heavily influenced by financial prospects alone. <br><br>
 **Summary**: <br>
-<!-- Feel free to edit this --> 
-From this data, it appears that popularity in the courses is not largely influenced by their employability prospects or expected incomes. Instead, both income and employment seem to follow a relatively normal distribution curve. This is in line with what would be expected if the major choices were randomly distributed, implying that a large range of hidden factors will be influencing their decisions. Ultimately, it can be concluded that the choices for majors lie not only in these two factors, but also potentially in others such as enjoyment, external pressure, what the university offers, and more. Further research would have to be done to investigate the impact of these factors. 
+
+From this data, it appears that popularity in the courses is not largely influenced by their employability prospects or expected incomes. Instead, both income and employment seem to follow a relatively normal distribution curve. This is in line with what would be expected if the major choices were randomly distributed. Thus, it can be concluded that the choices for majors are affected by a large range of hidden factors. Further research would have to be done to investigate the impact of these factors.
 
 <br>
 

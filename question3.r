@@ -29,6 +29,14 @@ ggplotly(ggplot(gradTotalData, aes(x=Median, fill=Major_category)) + geom_histog
            xlab("Median Income") + ylab("Density") + labs(title="Popularity vs Median Income"))
 
 
+ggscatterhist(
+  gradTotal_topbottom, x = "Median", y = "Total",
+  color = "Major", size = 3, alpha = 0.6,
+  palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+  margin.params = list(fill = "Major", color = "black", size = 0.2)
+)
+
+
 employmentMean = mean((gradTotalData$Employed/gradTotalData$Total))
 employmentSd = sd((gradTotalData$Employed/gradTotalData$Total))
 # Get all employment rates of engineering, then sort them in increasing order, and take the first element to get the lowest.
