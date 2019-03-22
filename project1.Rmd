@@ -77,16 +77,9 @@ University staff, intership firms, or other organisations may also find benefit 
 str(gradData)
 ```
 
-This data consists of 20 variables (excluding "Rank" which orders the subjects by Median income), however, only xx variables are relevant for the study:
+This data consists of 20 variables (excluding "Rank" which orders the subjects by Median income), however, only 15 variables are relevant for the study:
 
 #### Data Classifications {-.tabset}
-
-##### Major_code {-}
-A unique code for each major, given by the [source](https://www.census.gov/programs-surveys/acs/data/pums.html). <br>
-*Type*: Integer 
-<br>
-*Assessment*: Although it is a number, a factor classification would be more suitable as the codes are considered nominal (no order). 
-
 
 ##### Major {-}
 The major's name.
@@ -95,8 +88,8 @@ The major's name.
 <br>
 *Assessment*: Either a character or factor classification would be suitable. 
 
-##### Total, Men, Women {-}
-Amount of total people, men, and women respectively with that major in the sample for 2010-2012.
+##### Total {-}
+Amount of total people with that major in the sample for 2010-2012.
 <br>
 *Type*: Integer 
 <br>
@@ -108,21 +101,6 @@ General category for that major (e.g. "Engineering").
 *Type*: Factor 
 <br>
 *Assessment*: Suitable - allows for easy classification and plotting.
-
-##### ShareWomen {-}
-Women as a percentage of Total.
-<br>
-*Type*: Number 
-<br>
-*Assessment*: Suitable, since it is provided as a decimal (multiply by 100 if plotting percentages). 
-
-
-##### Sample_size {-}
-Sample size for calculating income quartiles.
-<br>
-*Type*: Integer 
-<br>
-*Assessment*: Suitable. 
 
 ##### Employed, Full_time, Part_time {-}
 Number of people employed, employed 35 hours or more per week, and employed 35 hours or less respectively.
@@ -187,9 +165,11 @@ This data, taking into account the issues above and their solutions, can be cons
 
 There are three variables to consider - the 25th percentile, median, and 75th percentile incomes. Additionally, it is important to consider both individual majors and major categories. Taking a summary initially shows that there is a significant range of incomes:
 ```{r}
+# Shows the summary (IQR etc.) of median incomes
 summary(gradData$Median)
 ```
 ```{r warning=FALSE}
+# Used to plot the median line (in red)
 hline <- function(y = 0) {
   list(
     type = "line", 
@@ -201,6 +181,7 @@ hline <- function(y = 0) {
     line = list(color = "red", width=1)
   )
 }
+# Plots a boxplot of major categories by income
 plot_ly(gradData, y=~Median/1000, color=~Major_category, type="box") %>% 
   layout(    
     yaxis = list(title = "Median income (USD$1000)"),
@@ -401,9 +382,9 @@ ggplot(gradData, aes(x=factor(Major_category), y=percentCollege)) +
 
 ## Research Question 3
 
-> Looking at the results from Q1 and Q2, how do these "rankings" align with the popularity of these courses? 
+> Looking at the results from Question 1 and Question 2, how do these "rankings" align with the popularity of these courses? 
 
-From Questions 1 and 2, the majors falling into the engineering category have consistently ranked amongst the highest in terms of income. By examining the popularity of courses, a stronger conclusion should be able to be made regarding the reasons for this apparent incongruity.
+From Questions 1 and 2, the majors falling into the engineering category have consistently ranked among the highest in terms of income. By examining the popularity of courses, a stronger conclusion should be able to be made regarding the reasons behind this.
 
 ```{r message=FALSE}
 # Exclude Food Science and Military Technologies, as they have missing data.
@@ -424,13 +405,13 @@ ggplotly(ggplot(gradTotalData, aes(x=Median/1000, fill=Major_category)) + geom_h
            xlab("Median Income (USD$1000)") + ylab("Count") + 
            labs(title="Popularity vs Median Income"))
 ```
-Initially, by looking at the distribution of Median income across major categories, it's apparent that more specialised fields (lower counts) tend to generate a higher income. By examining the categories (differentiated by colour, and named on hover), the data shows that engineering has a higher frequency in higher median income areas.
+Initially, by looking at the distribution of Median income across major categories, it's apparent that more specialised fields (lower counts) tend to generate a higher income. By examining the categories (differentiated by colour, and named on hover), the data shows that engineering has a higher frequency in higher median income areas. Despite this, the data still follows a relatively normal distribution. 
 ```{r message=FALSE}
 ggplotly(ggplot(gradTotalData, aes(x=100*Employed/Total, fill=Major_category)) + geom_histogram() + 
            theme(legend.position = "none") +
            xlab("Employment Rate (%)") + ylab("Count") + labs(title="Popularity vs Employment Rate"))
 ```
-A histogram of employment rate shows a fairly normal distribution of major categories. Interestingly, engineering holds not only the highest median income major, but also the major with the highest employment rate of graduates. However, employment rates of engineering majors are also observed to have much more of a spread. As show below, the employment rate of engineering majors at worst is 2.75 deviations from the mean.
+A histogram of employment rate also shows a fairly normal distribution of popularity. <!-- I don't think this next part is really relevant to the question? --> Interestingly, engineering holds not only the highest median income major, but also the major with the highest employment rate of graduates. However, employment rates of engineering majors are also observed to have much more of a spread. As show below, the employment rate of engineering majors at worst is 2.75 deviations from the mean.
 ```{r}
 employmentMean = mean((gradTotalData$Employed/gradTotalData$Total))
 employmentSd = sd((gradTotalData$Employed/gradTotalData$Total))
@@ -441,10 +422,10 @@ message("Lowest Z Score for Engineering Employment: ", distance)
 ```
 
 **Summary**: <br>
-
+<!-- Feel free to edit this --> 
+From this data, it appears that popularity in the courses is not largely influenced by their employability aspects or expected incomes. Instead, both income and employment seem to follow a relatively normal distribution curve. This is in line with what would be expected if the major choices were randomly distributed, implying that a large range of hidden factors will be influencing their decisions. Ultimately, it can be concluded that the choices for majors lie not only in these two factors, but also potentially in others such as enjoyment, external pressure, what the university offers, and more. Further research would have to be done to investigate the impact of these factors. 
 
 <br>
-
 
 # References
 
