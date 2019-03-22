@@ -32,7 +32,7 @@ if (!require(plotly)) {
 
 # Executive Summary
 
-*Education. Work. Money*: three words almost guaranteed to be at the forefront of a student's mind as they contemplate their future upon leaving highschool. With more and more opportunities for anyone to pursue almost any degree in any field, the inevitable question of *"Which major should I take?"* is becoming a harder and harder choice for students across the world. <br><br>
+*Education. Work. Money*: three words almost guaranteed to be at the forefront of a student's mind as they contemplate their future upon leaving high school. With more and more opportunities for anyone to pursue almost any degree in any field, the inevitable question of *"Which major should I take?"* is becoming a harder and harder choice for students across the world. <br><br>
 
 In this research project, data from over 6.7 million college graduates in the USA has been analysed to examine key questions regarding the expected income, employability prospects, and subsequent popularity of various university majors. <br><br>
 The data shows that Engineering majors often see the highest levels of income, followed by other major categories such as Business and Law. 
@@ -63,8 +63,8 @@ The US Bureau of the Census is a government body, and although FiveThirtyEight h
 
 ### Stakeholders
 [The Census Bureau](#census) produces the PUMS as an inexpensive and accessible datasource for students and social scientists, while FiveThirtyEight wrangled this data for commercial use in their article [The Economic Guide to Picking a College Major](#economicguide), aimed at educating students on how to choose their college majors. <br> <br>
-Drawing upon the domain knowledge, this data is particularly relevant to highschool leavers trying to choose a major, as well as current students contemplating their career prospects, as it may help them make a more informed economic decision. <br><br>
-University staff, intership firms, or other organisations may also find benefit in predicting the future direction of the workforce, allowing for better resource allocation, such as investment into engineering and STEM fields. 
+Drawing upon the domain knowledge, this data is particularly relevant to school leavers trying to choose a major, as well as current students contemplating their career prospects, as it may help them make a more informed economic decision. <br><br>
+University staff, intership firms, or other organisations may also find benefit in predicting the future direction of the workforce, allowing for better resource allocation such as investment into engineering and STEM fields. 
 
 ### Data Dictionary
 
@@ -72,7 +72,7 @@ University staff, intership firms, or other organisations may also find benefit 
 str(gradData)
 ```
 
-This data consists of 20 variables (excluding "Rank" which orders the subjects by Median income), however, only 15 variables are relevant for the study:
+This data consists of 20 variables (excluding "Rank" which orders the subjects by Median income). However, only 15 variables are relevant for the study:
 
 #### Data Classifications {-.tabset}
 
@@ -123,7 +123,7 @@ The percentage of people unemployed over (unemployed + employed).
 <br>
 *Type*: Number 
 <br>
-*Assessment*: Suitable. 
+*Assessment*: Suitable, as it represents a percentage as a decimal. 
 
 ##### Median, P25th, P75th {-}
 Median, 25th percentile, and 75th percentile earnings respectively for full-time, year-round workers (in USD).
@@ -146,7 +146,7 @@ Number of people with a job requiring a college degree, not requiring a college 
 **Possible Issues**: <br>
 
  * The data consists of pre-summarised information, where each subject is a set of medians, percentages, etc. Therefore, care needs to be made in plotting and drawing conclusions. 
- * The data is categorised as an *observational study*, lacking in a control group and randomised allocation between majors. Therefore, any conclusions drawn must be treated as associativity rather than causality. 
+ * The data is categorised as an *observational study*, lacking in a control group and randomised allocation between majors. Therefore, any conclusions drawn must be treated as association rather than causation. 
  * The data is 7 years old, and income has not been adjusted for inflation. However, this is not a major issue considering relative comparisons are being made. 
  * The data has been pre-filtered to only include subjects below the age of 28. However, this can be positive in that it is more relevant to current university students.
  
@@ -328,7 +328,7 @@ ggplotly(ggplot(combined.df, aes(x=Income/1000, fill=Major_category)) + geom_den
            theme_minimal())
 ```
 
-Examining the density estimation of a selection of major categories, again Engineering appears to have significantly higher incomes compared to other categories. However, the graph shows that the spread is also significantly larger, with a portion of the income falling within the range of the lowest majors. This is contrasted with Education, where the range is confined to ~$25,000.  
+Again, Engineering appears to have significantly higher incomes compared to other categories. However, the graph shows that the spread is also significantly larger, with a portion of the income falling within the range of the lowest majors. This is contrasted with Education, where the range is confined to ~$25,000.  
 ```{r}
 # Coefficient of Variation for the Engineering sample's incomes
 message("Coefficient of Variation for Engineering: ", sd(combined.df[combined.df$Major_category=="Engineering",]$Income)/
@@ -347,7 +347,7 @@ The data shows that Engineering incomes can far exceed those in other categories
 > Which college majors prove most beneficial in regards to employment?
 
 There are various ways to measure the value of a particular college major in achieving employment, one  method being to simply observe the unemployment rate.
-Another less direct measure of a major's benefit in relation to employment is to compare the percentage of employed people who require their degree, compared to those employed who do not. This will be further referred to as the degree's 'usefulness'.
+Another less direct measure of a major's benefit in relation to employment is to compare the percentage of employed people who require their degree, compared to those employed who do not. This will be now be referred to as the degree's 'usefulness'.
 
 <br>
 
@@ -468,13 +468,13 @@ ggplotly(ggplot(gradTotalData, aes(x=Median/1000, fill=Major_category)) + geom_h
            xlab("Median Income (USD$1000)") + ylab("Count") + 
            labs(title="Popularity vs Median Income"))
 ```
-Examining major categories (differentiated by colour, and named on hover), the data shows surprisingly reveals a relatively normal distribution, with a slightly-positive skew being the only indication of a possible bias towards favouring higher-income majors. 
+Examining major categories (differentiated by colour, and named on hover), the data surprisingly reveals a relatively normal distribution, with a slightly-positive skew being the only indication of a possible bias towards favouring higher-income majors. 
 ```{r message=FALSE}
 ggplotly(ggplot(gradTotalData, aes(x=100*Employed/Total, fill=Major_category)) + geom_histogram() + 
            theme(legend.position = "none") +
            xlab("Employment Rate (%)") + ylab("Count") + labs(title="Popularity vs Employment Rate"))
 ```
-Again, a normal distribution appears to emerge when considering the role of employment on popularity. This is further emphasised when considering the spread of categories across a range of employabilities - Engineering, for example, has a significant spread despite it's apparent employability, with a maximum Z score of: 
+Again, a normal distribution appears to emerge when considering the role of employment on popularity. This is further emphasised when considering the spread of categories across a range of employabilities - Engineering, for example, has a significant spread despite its apparent employability, with a maximum Z score of: 
 ```{r}
 employmentMean = mean((gradTotalData$Employed/gradTotalData$Total))
 employmentSd = sd((gradTotalData$Employed/gradTotalData$Total))
