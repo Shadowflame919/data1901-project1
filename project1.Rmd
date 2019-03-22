@@ -1,7 +1,7 @@
 ---
 title: "DATA1901 Project 1"
 author: "Aitchison 490378115, Braham 490422474, Hempstead 490424010"
-subtitle: "The Influence of US College Majors"
+subtitle: "The Influence of US College Majors on Income and Employment"
 date: "University of Sydney | Semester 1 2019 | Lab Session Monday 9am | Carslaw LS 353"
 output: 
   html_document:
@@ -32,19 +32,11 @@ if (!require(plotly)) {
 
 # Executive Summary
 
-<!-- need to cut down words --> 
 *Education. Work. Money*: three words almost guaranteed to be at the forefront of a student's mind as they contemplate their future upon leaving highschool. With more and more opportunities for anyone to pursue almost any degree in any field, the inevitable question of *"Which major should I take?"* is becoming a harder and harder choice for students across the world. <br><br>
-In this research project, data from over 6.7 million college graduates in the USA has been analysed to examine key questions regarding:
-
-* Which college major should a student take to receive the highest income?
-* Which college major should a student pursue to receive the greatest prospects of employment?
-* How do these "rankings" align with the popularity of these courses?
-
-Data shows that Engineering majors often see the highest levels of income, followed by other major categories such as Business and Law. In particular, Petroleum Engineering stands over the rest of the majors with a median income of USD\$110,000, compared to a median of \$36,000. <br> <br>
-
-Further, looking at unemployment shows a trend in ... <br><br>
-
-Ultimately, however, the popularity of courses appears not to be inherently linked to their employability prospects or expected incomes. This implies that, whether for better or worse, instead of basing choices on these factors, most students may instead be following influences such as personal preference, external pressure, or availabilities. 
+In this research project, data from over 6.7 million college graduates in the USA has been analysed to examine key questions regarding the expected income, employability prospects, and subsequent popularity of various university majors. <br><br>
+The data shows that Engineering majors often see the highest levels of income, followed by other major categories such as Business and Law. 
+Further, the data also reveals a general trend where fields requiring higher education levels often accompany lower levels of unemployment, while also affirming how a large spread of employment rates can be seen between majors even within the same field.<br><br>
+Ultimately, however, the popularity of courses appears not to be inherently linked to their employability prospects or expected incomes. This implies that, whether for better or worse, instead of basing choices on these factors, most students may instead be following other external influences beyond the scope of this report. 
 
 <br>
 <br>
@@ -354,7 +346,7 @@ The data shows that Engineering incomes can far exceed those in other categories
 > Which college majors prove most beneficial in regards to employment?
 
 There are various ways to measure the value of a particular college major in achieving employment, one  method being to simply observe the unemployment rate.
-Another, less direct measure of a major benifits in relation to employment, is to compare the percentage of employed people who require their degree, compared to those employed who do not. That which this report will further refer to as the degree's 'usefulness'.
+Another less direct measure of a major's benefit in relation to employment is to compare the percentage of employed people who require their degree, compared to those employed who do not. This will be further referred to as the degree's 'usefulness'.
 
 <br>
 
@@ -418,7 +410,7 @@ plot_ly(
   shapes = hline(median(gradData$Job_ratio))
 )
 ```
-Even though this plot is attempting to answer the same question but from a different angle, categories like IACS seem to reveal conflicting results. Education on the other hand leads on both metrics.
+Even though this plot is attempting to answer the same question but from a different angle, categories like Industrial Arts & Consumer Services seem to reveal conflicting results. Education on the other hand leads on both metrics.
 
 <br>
 
@@ -444,17 +436,17 @@ plot_ly(
 )
 ```
 
-The positive correlation between these two metrics is revealed through a scatter plot of each major comparing unemployment and degree 'usefulness'. The more your degree is required in the field, the less likely you are to be left unemployed. 
+The correlation between these two metrics is revealed through a scatter plot of each major comparing unemployment and degree 'usefulness'. The more your degree is required in the field, the less likely you are to be left unemployed. 
 
 <br>
 
-**Summary**: Examining the data with regards to employment reveals Education as a category of possible majors which will ensure you are employed and using your degree to its full potential. However, more importantly, the data reveals that naively considering one metric will not provide you with the full story when selecting your major as evident through the large spreads and conflicting metrics.
+**Summary**: Examining the data with regards to employment reveals Education as a category of possible majors which will ensure you are employed and using your degree to its full potential. However, more importantly, the data reveals that naively considering one metric will not provide you with the full story when selecting your major as evident through the large spreads and conflicting factors.
 
 ## Research Question 3
 
 > Looking at the results from Question 1 and Question 2, how do these "rankings" align with the popularity of these courses? 
 
-From Questions 1 and 2, the majors falling into the engineering category have consistently ranked among the highest in terms of income. By examining the popularity of courses, a stronger conclusion should be able to be made regarding the reasons behind this.
+From Questions 1 and 2, the Engineering majors have consistently ranked among the highest in terms of income. However, further disparity emerges when considering other variables such as employment, and now popularity.
 
 ```{r message=FALSE}
 # Exclude Food Science and Military Technologies, as they have missing data.
@@ -475,30 +467,29 @@ ggplotly(ggplot(gradTotalData, aes(x=Median/1000, fill=Major_category)) + geom_h
            xlab("Median Income (USD$1000)") + ylab("Count") + 
            labs(title="Popularity vs Median Income"))
 ```
-Examining major categories (differentiated by colour, and named on hover), the data shows that engineering has a higher frequency in higher median income areas. Despite this, the data still follows a relatively normal distribution.
+Examining major categories (differentiated by colour, and named on hover), the data shows surprisingly reveals a relatively normal distribution, with a slightly-positive skew being the only indication of a possible bias towards favouring higher-income majors. 
 ```{r message=FALSE}
 ggplotly(ggplot(gradTotalData, aes(x=100*Employed/Total, fill=Major_category)) + geom_histogram() + 
            theme(legend.position = "none") +
            xlab("Employment Rate (%)") + ylab("Count") + labs(title="Popularity vs Employment Rate"))
 ```
-Engineering holds not only the highest median income major, but also the major with the highest employment rate of graduates. However, employment rates of engineering majors are also observed to have much more of a spread. As shown below, the employment rate of engineering majors at worst is 2.75 deviations from the mean.
+Again, a normal distribution appears to emerge when considering the role of employment on popularity. This is further emphasised when considering the spread of categories across a range of employabilities - Engineering, for example, has a significant spread despite it's apparent employability, with a maximum Z score of: 
 ```{r}
 employmentMean = mean((gradTotalData$Employed/gradTotalData$Total))
 employmentSd = sd((gradTotalData$Employed/gradTotalData$Total))
 # Get all employment rates of engineering, then sort them in increasing order, and take the first element to get the lowest.
 lowestEmployment = sort((gradTotalData$Employed/gradTotalData$Total)[gradTotalData$Major_category=="Engineering"], decreasing=FALSE)[1]
 distance = ((employmentMean - lowestEmployment)/employmentSd)
-message("Lowest Z Score for Engineering Employment: ", distance)
+message("Highest Z Score for Engineering Employment: ", distance)
 ```
 ```{r}
 ggplotly(ggplot(gradTotal_topbottom, aes(x=Median/1000, fill=Major, y=Total)) + geom_point() + 
            theme(legend.position = "none") +
            xlab("Median Income (USD $1000)") + ylab("Total Grads") + labs(title="Total Grads vs Median Income"))
 ```
-By examining the top and bottom ten majors as a scatter plot of popularity against income, the normal distribution is of income is emphasised, suggesting that students may not be heavily influenced by financial prospects alone. <br><br>
+Additionally, by examining the top and bottom ten majors as a scatter plot of popularity against income, there appears to be no clear correlation between income and popularity extremes, suggesting that students may not be heavily influenced by economic prospects alone. <br><br>
 **Summary**: <br>
-
-From this data, it appears that popularity in the courses is not largely influenced by their employability prospects or expected incomes. Instead, both income and employment seem to follow a relatively normal distribution curve. This is in line with what would be expected if the major choices were randomly distributed. Thus, it can be concluded that the choices for majors are affected by a large range of hidden factors. Further research would have to be done to investigate the impact of these factors.
+From this data, it appears that popularity in the courses is not largely influenced by their employability prospects or expected incomes. Instead, both income and employment seem to follow a relatively normal distribution curve - in line with what would be expected if the major choices were randomly distributed. Thus, it can be concluded that the choices for majors are affected by a large range of hidden factors. Further research would have to be done to investigate the impact of these factors on students' choices.
 
 <br>
 
