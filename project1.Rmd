@@ -352,8 +352,7 @@ ggplotly(ggplot(combined.df, aes(x=Income/1000, fill=Major_category)) + geom_den
            theme_minimal())
 ```
 
-
-Examining the density estimation of a selection of major categories, again Engineering appears to have significantly higher incomes compared to other categories. However, the estimation shows that the spread is also significantly larger, with a portion of the income falling within the range of the lowest majors. This is contrasted with Education, where the range is confined to ~$25,000.  
+Examining the density estimation of a selection of major categories, again Engineering appears to have significantly higher incomes compared to other categories. However, the graph shows that the spread is also significantly larger, with a portion of the income falling within the range of the lowest majors. This is contrasted with Education, where the range is confined to ~$25,000.  
 ```{r}
 # Coefficient of Variation for the Engineering sample's incomes
 message("Coefficient of Variation for Engineering: ", sd(combined.df[combined.df$Major_category=="Engineering",]$Income)/
@@ -431,7 +430,7 @@ ggplotly(ggplot(gradTotalData, aes(x=100*Employed/Total, fill=Major_category)) +
            theme(legend.position = "none") +
            xlab("Employment Rate (%)") + ylab("Count") + labs(title="Popularity vs Employment Rate"))
 ```
-A histogram of employment rate shows a fairly normal distribution of major categories. Interestingly, engineering holds not only the highest median income major, but also the major with the highest employment rate of graduates. Unlike income, however, employment rates of engineering majors are observed to have much more of a spread. As show below, the employment rate of engineering majors at worst is 2.75 deviations from the mean.
+A histogram of employment rate shows a fairly normal distribution of major categories. Interestingly, engineering holds not only the highest median income major, but also the major with the highest employment rate of graduates. However, employment rates of engineering majors are also observed to have much more of a spread. As show below, the employment rate of engineering majors at worst is 2.75 deviations from the mean.
 ```{r}
 employmentMean = mean((gradTotalData$Employed/gradTotalData$Total))
 employmentSd = sd((gradTotalData$Employed/gradTotalData$Total))
