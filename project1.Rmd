@@ -32,6 +32,7 @@ if (!require(plotly)) {
 
 # Executive Summary
 
+<!-- need to cut down words --> 
 *Education. Work. Money*: three words almost guaranteed to be at the forefront of a student's mind as they contemplate their future upon leaving highschool. With more and more opportunities for anyone to pursue almost any degree in any field, the inevitable question of *"Which major should I take?:"* is becoming a harder and harder choice for students across the world. <br><br>
 In this research project, data from over 6.7 million college graduates in the USA has been analysed to examine key questions regarding:
 
@@ -40,9 +41,10 @@ In this research project, data from over 6.7 million college graduates in the US
 * How do these "rankings" align with the popularity of these courses?
 
 Data shows that Engineering majors often see the highest levels of income, followed by other major categories such as Business and Law. In particular, Petroleum Engineering stands over the rest of the majors with a median income of USD\$110,000, compared to a median of \$36,000. <br> <br>
-Further, UNEMPLOYMENT. <br><br>
-Additionally, POPULARITY. <br><br>
-However, POINT. 
+
+Further, looking at unemployment shows a trend in ... <br><br>
+
+Ultimately, however, the popularity of courses appears not to be inherently linked to their employability prospects or expected incomes. This implies that, whether for better or worse, instead of basing choices on these factors, most students may instead be following influencers such as personal preference, external pressure, or availabilities. 
 
 <br>
 <br>
@@ -423,7 +425,7 @@ message("Lowest Z Score for Engineering Employment: ", distance)
 
 **Summary**: <br>
 <!-- Feel free to edit this --> 
-From this data, it appears that popularity in the courses is not largely influenced by their employability aspects or expected incomes. Instead, both income and employment seem to follow a relatively normal distribution curve. This is in line with what would be expected if the major choices were randomly distributed, implying that a large range of hidden factors will be influencing their decisions. Ultimately, it can be concluded that the choices for majors lie not only in these two factors, but also potentially in others such as enjoyment, external pressure, what the university offers, and more. Further research would have to be done to investigate the impact of these factors. 
+From this data, it appears that popularity in the courses is not largely influenced by their employability prospects or expected incomes. Instead, both income and employment seem to follow a relatively normal distribution curve. This is in line with what would be expected if the major choices were randomly distributed, implying that a large range of hidden factors will be influencing their decisions. Ultimately, it can be concluded that the choices for majors lie not only in these two factors, but also potentially in others such as enjoyment, external pressure, what the university offers, and more. Further research would have to be done to investigate the impact of these factors. 
 
 <br>
 
